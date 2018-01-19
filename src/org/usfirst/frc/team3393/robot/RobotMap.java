@@ -8,20 +8,26 @@ package org.usfirst.frc.team3393.robot;
  */
 public class RobotMap {
 	
-	public static int forkliftLeft = 4;
-	public static int forkliftRight = 5;
+	/*FORKLIFT*/
+	public static int forkliftL = 4;
+	public static int forkliftR = 5;
 	
+	/*GRABBIE*/
 	public static int grabbieOpen = 0;
 	public static int grabbieClose = 1;
 	
 	/*DRIVETRAIN*/
-	//encoder
-	public static int rEncoder1 = 0;
-	public static int rEncoder2 = 1;
+	//encoders
+	public static int dEncoderL1 = 0;
+	public static int dEncoderL2 = 1;
+	
+	public static int dEncoderR1 = 2;
+	public static int dEncoderR2 = 3;
 	
 	//drivemotors
 	public static int dTalonL = 0;
 	public static int dTalonR = 1;
+	
 	public static int dSparkL = 0;
 	public static int dSparkR = 1;
 	

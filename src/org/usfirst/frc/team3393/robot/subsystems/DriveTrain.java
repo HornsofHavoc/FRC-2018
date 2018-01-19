@@ -22,11 +22,14 @@ public class DriveTrain extends Subsystem{
 	private static SpeedControllerGroup driveLeft;
 	private static SpeedControllerGroup driveRight;
 	private static DifferentialDrive drivetrain;
-	private Encoder driveEncoder;
+	private Encoder encoderLeft;
+	private Encoder encoderRight;
 	
 	public DriveTrain(){
-		driveEncoder = new Encoder(RobotMap.rEncoder1, RobotMap.rEncoder2);
-		driveEncoder.setDistancePerPulse((1.0/360.0));
+		encoderLeft = new Encoder(RobotMap.dEncoderL1, RobotMap.dEncoderL2);
+		encoderRight = new Encoder(RobotMap.dEncoderR1, RobotMap.dEncoderR2);
+		encoderLeft.setDistancePerPulse((1.0/360.0));
+		encoderRight.setDistancePerPulse((1.0/360.0));
 		talonLeft = new WPI_TalonSRX(RobotMap.dTalonL);
 		talonRight = new WPI_TalonSRX(RobotMap.dTalonR);
 		sparkLeft = new Spark(RobotMap.dSparkL);
@@ -41,12 +44,17 @@ public class DriveTrain extends Subsystem{
 		this.setDefaultCommand(new TankDrive());
 	}
 	
-	public double getDriveEncoderTicks(){
-		return driveEncoder.getRaw();
+	public double getLeftEncoderTicks(){
+		return encoderLeft.getRaw();
+	}
+	
+	public double getRightEncoderTicks(){
+		return encoderRight.getRaw();
 	}
 	
 	public void resetEncoders(){
-		driveEncoder.reset();
+		encoderLeft.reset();
+		encoderRight.reset();
 	}
 
 	public WPI_TalonSRX getTalonLeft() {
@@ -105,17 +113,19 @@ public class DriveTrain extends Subsystem{
 		DriveTrain.drivetrain = drivetrain;
 	}
 
-	public Encoder getDriveEncoder() {
-		return driveEncoder;
+	public Encoder getLeftEncoder() {
+		return encoderLeft;
 	}
-
-	public void setDriveEncoder(Encoder driveEncoder) {
-		this.driveEncoder = driveEncoder;
+	
+	public Encoder getRightEncoder() {
+		return encoderRight;
 	}
 	
 	public void reportToSmartDashboard(){
-		SmartDashboard.putNumber("Drive Encoder", driveEncoder.getRaw());
-		SmartDashboard.putNumber("Encoder Distance", driveEncoder.getDistance());
+		SmartDashboard.putNumber("Left Encoder", encoderLeft.getRaw());
+		SmartDashboard.putNumber("Left Encoder Distance", encoderLeft.getDistance());
+		SmartDashboard.putNumber("Right Encoder", encoderRight.getRaw());
+		SmartDashboard.putNumber("Right Encoder Distance", encoderRight.getDistance());
 	}
 
 }

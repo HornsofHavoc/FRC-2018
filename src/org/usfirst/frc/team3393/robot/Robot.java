@@ -26,6 +26,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
+ * 
+ * If just loaded from git you'll need to manually add the wpi nature in the .project file
+ * <nature>edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature</nature>
  */
 @SuppressWarnings("unused")
 public class Robot extends IterativeRobot {
@@ -108,7 +111,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
 		Scheduler.getInstance().run();
 	}
 
@@ -129,6 +131,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
+		oi.reportToSmartDashboard();
 		drivetrain.reportToSmartDashboard();
 		forklift.reportToSmartDashboard();
 		grabbies.reportToSmartDashboard();
@@ -140,6 +143,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		
+		oi.reportToSmartDashboard();
+		drivetrain.reportToSmartDashboard();
+		forklift.reportToSmartDashboard();
+		grabbies.reportToSmartDashboard();
 	}
 }
