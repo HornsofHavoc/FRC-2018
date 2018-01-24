@@ -1,8 +1,11 @@
 package org.usfirst.frc.team3393.robot;
 
+import org.usfirst.frc.team3393.robot.commands.GrabbieClose;
+import org.usfirst.frc.team3393.robot.commands.GrabbieOpen;
 import org.usfirst.frc.team3393.robot.commands.TankDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -14,9 +17,15 @@ public class OI {
 	private static Joystick left;
 	private static Joystick right;
 	
+	private static JoystickButton grabbieButton;
+	
 	public OI() {
 		left = new Joystick(0);
 		right = new Joystick(1);
+		
+		grabbieButton = new JoystickButton(left, 3);
+		grabbieButton.whenPressed(new GrabbieClose());
+		grabbieButton.whenReleased(new GrabbieOpen());
 		
 		SmartDashboard.putData("Tank Drive", new TankDrive());
 	}

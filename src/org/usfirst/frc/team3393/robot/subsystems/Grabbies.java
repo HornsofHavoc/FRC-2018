@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3393.robot.subsystems;
 
 import org.usfirst.frc.team3393.robot.RobotMap;
+import org.usfirst.frc.team3393.robot.commands.GrabbieOpen;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,14 +15,13 @@ public class Grabbies extends Subsystem {
 	private static String grabbieState = "Open";
 	
 	public Grabbies() {
-		//grabbieOpen = new Solenoid(RobotMap.grabbieOpen);
-		//grabbieClose = new Solenoid(RobotMap.grabbieClose);
+		grabbieOpen = new Solenoid(RobotMap.grabbieOpen);
+		grabbieClose = new Solenoid(RobotMap.grabbieClose);
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		this.setDefaultCommand(new GrabbieOpen());
 	}
 	
 	public void shutGrabbies(){
@@ -37,7 +37,7 @@ public class Grabbies extends Subsystem {
 	}
 	
 	public void reportToSmartDashboard(){
-		//SmartDashboard.putString("Grabbie State", grabbieState);
+		SmartDashboard.putString("Grabbie State", grabbieState);
 	}
 
 }

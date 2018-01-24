@@ -17,7 +17,6 @@ public class GrabbieClose extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

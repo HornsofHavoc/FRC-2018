@@ -2,6 +2,7 @@ package org.usfirst.frc.team3393.robot.subsystems;
 
 import org.usfirst.frc.team3393.robot.RobotMap;
 import org.usfirst.frc.team3393.robot.commands.TankDrive;
+import org.usfirst.frc.team3393.utils.Maths;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class DriveTrain extends Subsystem{
 	
@@ -24,12 +26,15 @@ public class DriveTrain extends Subsystem{
 	private static DifferentialDrive drivetrain;
 	private Encoder encoderLeft;
 	private Encoder encoderRight;
+	private ADXRS450_Gyro gyro;
 	
 	public DriveTrain(){
 		encoderLeft = new Encoder(RobotMap.dEncoderL1, RobotMap.dEncoderL2);
 		encoderRight = new Encoder(RobotMap.dEncoderR1, RobotMap.dEncoderR2);
 		encoderLeft.setDistancePerPulse((1.0/360.0));
 		encoderRight.setDistancePerPulse((1.0/360.0));
+		encoderRight.setReverseDirection(true);
+		gyro = new ADXRS450_Gyro();
 		talonLeft = new WPI_TalonSRX(RobotMap.dTalonL);
 		talonRight = new WPI_TalonSRX(RobotMap.dTalonR);
 		sparkLeft = new Spark(RobotMap.dSparkL);
@@ -37,6 +42,8 @@ public class DriveTrain extends Subsystem{
 		driveLeft = new SpeedControllerGroup(talonLeft, sparkLeft);
 		driveRight = new SpeedControllerGroup(talonRight, sparkRight);
 		drivetrain = new DifferentialDrive(driveLeft, driveRight);
+		
+		gyro.calibrate();
 	}
 
 	@Override
@@ -124,8 +131,16 @@ public class DriveTrain extends Subsystem{
 	public void reportToSmartDashboard(){
 		SmartDashboard.putNumber("Left Encoder", encoderLeft.getRaw());
 		SmartDashboard.putNumber("Left Encoder Distance", encoderLeft.getDistance());
+		SmartDashboard.putNumber("Left Encoder Feet", Maths.getEncoderFeet(encoderLeft));
 		SmartDashboard.putNumber("Right Encoder", encoderRight.getRaw());
 		SmartDashboard.putNumber("Right Encoder Distance", encoderRight.getDistance());
+		SmartDashboard.putNumber("Right Encoder Feet", Maths.getEncoderFeet(encoderRight));
+		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
+		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+	}
+
+	public ADXRS450_Gyro getGyro() {
+		return gyro;
 	}
 
 }

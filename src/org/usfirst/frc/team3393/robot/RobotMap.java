@@ -13,8 +13,8 @@ public class RobotMap {
 	public static int forkliftR = 5;
 	
 	/*GRABBIE*/
-	public static int grabbieOpen = 0;
-	public static int grabbieClose = 1;
+	public static int grabbieOpen = 1;
+	public static int grabbieClose = 0;
 	
 	/*DRIVETRAIN*/
 	//encoders
