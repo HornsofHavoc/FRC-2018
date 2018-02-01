@@ -39,8 +39,8 @@ public class OI {
 	}
 	
 	public void reportToSmartDashboard() {
-		SmartDashboard.putString("Joystick Left", "x: "+left.getX()+" y: "+left.getY()+" z: "+left.getZ());
-		SmartDashboard.putString("Joystick Right", "x: "+right.getX()+" y: "+right.getY()+" z: "+right.getZ());
+		SmartDashboard.putString("Joystick Left", left.getY()+"");
+		SmartDashboard.putString("Joystick Right", right.getY()+"");
 	}
 	
 	//// CREATING BUTTONS

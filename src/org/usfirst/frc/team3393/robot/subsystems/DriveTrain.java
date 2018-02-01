@@ -62,6 +62,7 @@ public class DriveTrain extends Subsystem{
 	public void resetEncoders(){
 		encoderLeft.reset();
 		encoderRight.reset();
+		gyro.reset();
 	}
 
 	public WPI_TalonSRX getTalonLeft() {
