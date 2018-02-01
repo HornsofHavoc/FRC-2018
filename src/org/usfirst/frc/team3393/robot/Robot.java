@@ -1,14 +1,31 @@
 package org.usfirst.frc.team3393.robot;
 
+import java.util.List;
+
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3393.robot.commands.auto.DriveRotate;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveStraight;
+import org.usfirst.frc.team3393.robot.commands.auto.TurnTowardsObject;
 import org.usfirst.frc.team3393.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3393.robot.subsystems.Forklift;
 import org.usfirst.frc.team3393.robot.subsystems.Grabbies;
+import org.usfirst.frc.team3393.robot.subsystems.Ultrasonic;
+import org.usfirst.frc.team3393.robot.vision.CameraBoi;
+import org.usfirst.frc.team3393.robot.vision.GripPipeline;
+import org.usfirst.frc.team3393.utils.FRCNet;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -24,6 +41,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionRunner;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,6 +58,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	
 	public static DriverStation dslink;
+	public static CameraBoi camera;
+	
+	public static VisionThread visionThread;
+	public static final Object imgLock = new Object();
+	public static MjpegServer contourServer;
+	public static CvSource contourSource;
+	public static Mat contourImage;
 	
 	final boolean OPEN_GRABBIE = (false);
 	final boolean CLOSE_GRABBIE = (true);
@@ -53,6 +79,9 @@ public class Robot extends IterativeRobot {
 	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
+	
+	public static double centerX;
+	public static double center;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -68,7 +97,7 @@ public class Robot extends IterativeRobot {
 		grabbies = new Grabbies();
 		
 		oi = new OI();
-		chooser.addDefault("Drive Straight", new DriveStraight(30.0));
+		//chooser.addDefault("Drive Rotate", new DriveRotate(-1440.0));
 		//chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -76,7 +105,43 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(forklift);
 		SmartDashboard.putData(grabbies);
 		
-		CameraServer.getInstance().startAutomaticCapture();
+		camera = new CameraBoi(CameraServer.getInstance().startAutomaticCapture(0));
+		camera.getCamera().setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+		contourServer = new MjpegServer("contours", 1189);
+		contourSource = new CvSource("contours", PixelFormat.kMJPEG, 320, 240, 10);
+		contourImage = new Mat(320, 240, 11);
+		visionThread = new VisionThread(camera.getCamera(), new GripPipeline(), new VisionRunner.Listener<GripPipeline>() {
+			//double centerX;
+			@Override
+			public void copyPipelineOutputs(GripPipeline pipeline) {
+				if (!pipeline.filterContoursOutput().isEmpty()) {
+		            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+		            synchronized (imgLock) {
+		                centerX = r.x + (r.width / 2);
+		                List<MatOfPoint> hulls = pipeline.convexHullsOutput();
+		                Mat image32S = new Mat();
+		                contourImage.convertTo(image32S, CvType.CV_32SC1);
+
+		                Imgproc.findContours(image32S, hulls, new Mat(), Imgproc.RETR_FLOODFILL, Imgproc.CHAIN_APPROX_SIMPLE);
+
+		                // Draw all the contours such that they are filled in.
+		                Mat contourImg = new Mat(image32S.size(), image32S.type());
+		                for (int i = 0; i < hulls.size(); i++) {
+		                    Imgproc.drawContours(contourImg, hulls, i, new Scalar(255, 255, 255), -1);
+		                }
+		                contourSource.putFrame(contourImg);
+		                //FRCNet.readNetworkTableContours();
+		            }
+		        } else {
+		        	synchronized (imgLock) {
+		                centerX = 0;
+		                //FRCNet.readNetworkTableContours();
+		            }
+		        }
+			}
+		});
+	    visionThread.start();
+		
 	}
 	
 	public static void onEnabled() {
@@ -122,6 +187,7 @@ public class Robot extends IterativeRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 		// schedule the autonomous command (example)
+		new TurnTowardsObject().start();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -132,7 +198,18 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		
+		synchronized (imgLock) {
+			this.center = this.centerX;
+			
+//			String fms;
+//			fms = DriverStation.getInstance().getGameSpecificMessage ();
+//			if(fms.charAt(0) == '')
+//			{
+//			//Put left auto code here
+//			} else {
+//			//Put right auto code here
+//			}
+		}
 		Timer.delay(.0001);
 	}
 
@@ -158,6 +235,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.reportToSmartDashboard();
 		forklift.reportToSmartDashboard();
 		grabbies.reportToSmartDashboard();
+		Ultrasonic.reportToSmartDashBoard();
 		Timer.delay(0.0001);
 	}
 
