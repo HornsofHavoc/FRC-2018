@@ -44,11 +44,11 @@ public class DriveTowardObject extends Command {
 //			driveRight = driveRight + (driveRight*Math.abs((gyroStart-Robot.drivetrain.getGyro().getAngle())/8));
 //		}
 		if(gyroStart - Robot.drivetrain.getGyro().getAngle() > 0.01) {
-			driveLeft = -0.52;
-			driveRight = -0.55;
-		} else if(gyroStart - Robot.drivetrain.getGyro().getAngle() < 0.01) {
 			driveLeft = -0.55;
-			driveRight = -0.52;
+			driveRight = -0.58;
+		} else if(gyroStart - Robot.drivetrain.getGyro().getAngle() < 0.01) {
+			driveLeft = -0.58;
+			driveRight = -0.55;
 		} else {
 			driveLeft = -0.55;
 			driveRight = -0.55;

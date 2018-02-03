@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3393.robot;
 
+import org.usfirst.frc.team3393.robot.commands.ForkliftFullDown;
+import org.usfirst.frc.team3393.robot.commands.ForkliftFullUp;
 import org.usfirst.frc.team3393.robot.commands.GrabbieIn;
 import org.usfirst.frc.team3393.robot.commands.GrabbieOut;
 import org.usfirst.frc.team3393.robot.commands.TankDrive;
@@ -18,6 +20,8 @@ public class OI {
 	private static Joystick right;
 	
 	private static JoystickButton grabbieButton;
+	private static JoystickButton forkliftUpButton;
+	private static JoystickButton forkliftDownButton;
 	
 	public OI() {
 		left = new Joystick(0);
@@ -26,6 +30,16 @@ public class OI {
 		grabbieButton = new JoystickButton(left, 3);
 		grabbieButton.whenPressed(new GrabbieOut());
 		grabbieButton.whenReleased(new GrabbieIn());
+		
+		forkliftUpButton = new JoystickButton(left, 1);
+		forkliftUpButton.whenPressed(new ForkliftFullUp());
+		forkliftUpButton.whenReleased(new ForkliftFullDown());
+		
+		forkliftDownButton = new JoystickButton(right, 1);
+		forkliftDownButton.whenPressed(new ForkliftFullUp());
+		forkliftDownButton.whenReleased(new ForkliftFullDown());
+		
+		
 		
 		SmartDashboard.putData("Tank Drive", new TankDrive());
 	}

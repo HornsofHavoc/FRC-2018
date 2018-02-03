@@ -81,8 +81,8 @@ public class Robot extends IterativeRobot {
 	public static PowerDistributionPanel pdp;
 	public static Compressor compressor;
 	
-	Command autonomousCommand;
-	Command autoComm;
+	Command autonomousCommand = null;
+	Command autoComm = null;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	
 	public static double centerX;
@@ -124,7 +124,7 @@ public class Robot extends IterativeRobot {
 		contourSource = new CvSource("contours", PixelFormat.kGray, 320, 240, 10);
 		SmartDashboard.putString("Contour Server", contourServer.getListenAddress()+":"+contourServer.getPort());
 		contourServer.setSource(contourSource);
-		contourImage = new Mat(320, 240, CvType.CV_32SC1);
+//		contourImage = new Mat(320, 240, CvType.CV_32SC1);
 		visionThread = new VisionThread(camera.getCamera(), new GripPipeline(), new VisionRunner.Listener<GripPipeline>() {
 			//double centerX;
 			@Override
@@ -148,14 +148,14 @@ public class Robot extends IterativeRobot {
 		                //FRCNet.readNetworkTableContours();
 		            }
 		        }
-				List<MatOfPoint> hulls = pipeline.findContoursOutput();
+//				List<MatOfPoint> hulls = pipeline.findContoursOutput();
 
                 // Draw all the contours such that they are filled in.
-                for (int i = 0; i < hulls.size(); i++) {
-                    Imgproc.drawContours(contourImage, hulls, i, new Scalar(255), 3);
-                }
+//                for (int i = 0; i < hulls.size(); i++) {
+//                    Imgproc.drawContours(contourImage, hulls, i, new Scalar(255), 3);
+//                }
                 contourSource.putFrame(pipeline.hsvThresholdOutput());
-                contourImage = new Mat(320, 240, CvType.CV_32SC1);
+//                contourImage = new Mat(320, 240, CvType.CV_32SC1);
 			}
 		});
 	    visionThread.start();

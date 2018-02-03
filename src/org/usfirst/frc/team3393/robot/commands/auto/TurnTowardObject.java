@@ -45,9 +45,9 @@ public class TurnTowardObject extends Command {
 	public void execute() {
 		double center = Robot.center;
 		if((center>=5) && (center<=80)) {
-			Robot.drivetrain.getDrivetrain().tankDrive(0.5, -0.5);
+			Robot.drivetrain.getDrivetrain().tankDrive(0.58, -0.58);
 		} else if((center>=240) && (center<=315)) {
-			Robot.drivetrain.getDrivetrain().tankDrive(-0.5, 0.5);
+			Robot.drivetrain.getDrivetrain().tankDrive(-0.58, 0.58);
 		} else {
 			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
 			finished = true;
@@ -76,7 +76,7 @@ public class TurnTowardObject extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return finished;
+		return false;
 	}
 
 }

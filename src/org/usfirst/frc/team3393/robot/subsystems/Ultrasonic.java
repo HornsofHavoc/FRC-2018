@@ -28,8 +28,7 @@ public class Ultrasonic extends Subsystem {
 	  
 	  @Override
 	  protected void initDefaultCommand() {
-		  // TODO Auto-generated method stub
-		  
+		  this.setDefaultCommand(null);
 	  }
 
 }
