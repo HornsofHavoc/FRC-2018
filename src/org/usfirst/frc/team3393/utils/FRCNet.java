@@ -3,6 +3,7 @@ package org.usfirst.frc.team3393.utils;
 import java.util.List;
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class FRCNet {
 	
@@ -18,6 +19,10 @@ public class FRCNet {
 		for(String s: nt) {
 			System.out.println(s);
 		}
+	}
+	
+	public static DriverStation getDriverStation() {
+		return DriverStation.getInstance();
 	}
 
 }

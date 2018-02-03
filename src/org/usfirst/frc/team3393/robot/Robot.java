@@ -10,7 +10,9 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveRotate;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveStraight;
-import org.usfirst.frc.team3393.robot.commands.auto.TurnTowardsObject;
+import org.usfirst.frc.team3393.robot.commands.auto.DriveTowardObject;
+import org.usfirst.frc.team3393.robot.commands.auto.FollowObject;
+import org.usfirst.frc.team3393.robot.commands.auto.TurnTowardObject;
 import org.usfirst.frc.team3393.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3393.robot.subsystems.Forklift;
 import org.usfirst.frc.team3393.robot.subsystems.Grabbies;
@@ -18,6 +20,7 @@ import org.usfirst.frc.team3393.robot.subsystems.Ultrasonic;
 import org.usfirst.frc.team3393.robot.vision.CameraBoi;
 import org.usfirst.frc.team3393.robot.vision.GripPipeline;
 import org.usfirst.frc.team3393.utils.FRCNet;
+import org.usfirst.frc.team3393.utils.Maths;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -72,16 +75,23 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static Forklift forklift;
 	public static Grabbies grabbies;
+	public static Ultrasonic ultrasonic;
 	public static OI oi;
 	
 	public static PowerDistributionPanel pdp;
 	public static Compressor compressor;
 	
 	Command autonomousCommand;
+	Command autoComm;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	
 	public static double centerX;
 	public static double center;
+	
+	public static double distI;
+	public static double dist;
+	
+	public static String gameData;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -95,6 +105,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		forklift = new Forklift();
 		grabbies = new Grabbies();
+		ultrasonic = new Ultrasonic();
 		
 		oi = new OI();
 		//chooser.addDefault("Drive Rotate", new DriveRotate(-1440.0));
@@ -107,9 +118,13 @@ public class Robot extends IterativeRobot {
 		
 		camera = new CameraBoi(CameraServer.getInstance().startAutomaticCapture(0));
 		camera.getCamera().setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
+		camera.getCamera().setExposureManual(40);
+		camera.getCamera().setBrightness(50);
 		contourServer = new MjpegServer("contours", 1189);
-		contourSource = new CvSource("contours", PixelFormat.kMJPEG, 320, 240, 10);
-		contourImage = new Mat(320, 240, 11);
+		contourSource = new CvSource("contours", PixelFormat.kGray, 320, 240, 10);
+		SmartDashboard.putString("Contour Server", contourServer.getListenAddress()+":"+contourServer.getPort());
+		contourServer.setSource(contourSource);
+		contourImage = new Mat(320, 240, CvType.CV_32SC1);
 		visionThread = new VisionThread(camera.getCamera(), new GripPipeline(), new VisionRunner.Listener<GripPipeline>() {
 			//double centerX;
 			@Override
@@ -118,26 +133,29 @@ public class Robot extends IterativeRobot {
 		            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 		            synchronized (imgLock) {
 		                centerX = r.x + (r.width / 2);
-		                List<MatOfPoint> hulls = pipeline.convexHullsOutput();
-		                Mat image32S = new Mat();
-		                contourImage.convertTo(image32S, CvType.CV_32SC1);
-
-		                Imgproc.findContours(image32S, hulls, new Mat(), Imgproc.RETR_FLOODFILL, Imgproc.CHAIN_APPROX_SIMPLE);
-
-		                // Draw all the contours such that they are filled in.
-		                Mat contourImg = new Mat(image32S.size(), image32S.type());
-		                for (int i = 0; i < hulls.size(); i++) {
-		                    Imgproc.drawContours(contourImg, hulls, i, new Scalar(255, 255, 255), -1);
+		                distI = 0;
+		                if(r.height>8&&r.width>8) {
+		                	distI = Maths.getObjectDistance(r.height, 4.875);
 		                }
-		                contourSource.putFrame(contourImg);
+		                SmartDashboard.putNumber("Object Height (Pixels)", r.height);
+		                SmartDashboard.putNumber("Object Distance (Inches)", Maths.getObjectDistance(r.height, 4.875));
 		                //FRCNet.readNetworkTableContours();
 		            }
 		        } else {
 		        	synchronized (imgLock) {
 		                centerX = 0;
+		                distI = 0;
 		                //FRCNet.readNetworkTableContours();
 		            }
 		        }
+				List<MatOfPoint> hulls = pipeline.findContoursOutput();
+
+                // Draw all the contours such that they are filled in.
+                for (int i = 0; i < hulls.size(); i++) {
+                    Imgproc.drawContours(contourImage, hulls, i, new Scalar(255), 3);
+                }
+                contourSource.putFrame(pipeline.hsvThresholdOutput());
+                contourImage = new Mat(320, 240, CvType.CV_32SC1);
 			}
 		});
 	    visionThread.start();
@@ -179,6 +197,13 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		onEnabled();
 		autonomousCommand = chooser.getSelected();
+		
+		gameData = FRCNet.getDriverStation().getGameSpecificMessage();
+		if (gameData.charAt(0) == 'L') {
+			
+		} else {
+			
+		}
 		//SmartDashboard.putString("Game Specific Message", dslink.getGameSpecificMessage());
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -187,7 +212,8 @@ public class Robot extends IterativeRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 		// schedule the autonomous command (example)
-		new TurnTowardsObject().start();
+		autoComm = new TurnTowardObject();
+		autoComm.start();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -200,6 +226,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		synchronized (imgLock) {
 			this.center = this.centerX;
+			this.dist = this.distI;
 			
 //			String fms;
 //			fms = DriverStation.getInstance().getGameSpecificMessage ();
@@ -209,6 +236,10 @@ public class Robot extends IterativeRobot {
 //			} else {
 //			//Put right auto code here
 //			}
+		}
+		if(!autoComm.isRunning()) {
+			autoComm = new TurnTowardObject();
+			autoComm.start();
 		}
 		Timer.delay(.0001);
 	}
@@ -235,7 +266,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.reportToSmartDashboard();
 		forklift.reportToSmartDashboard();
 		grabbies.reportToSmartDashboard();
-		Ultrasonic.reportToSmartDashBoard();
+		ultrasonic.reportToSmartDashBoard();
 		Timer.delay(0.0001);
 	}
 

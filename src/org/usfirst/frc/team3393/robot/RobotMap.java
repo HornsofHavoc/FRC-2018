@@ -13,8 +13,8 @@ public class RobotMap {
 	public static int forkliftR = 5;
 	
 	/*GRABBIE*/
-	public static int grabbieOpen = 1;
-	public static int grabbieClose = 0;
+	public static int grabbieL = 1;
+	public static int grabbieR = 0;
 	
 	/*DRIVETRAIN*/
 	//encoders
@@ -23,6 +23,9 @@ public class RobotMap {
 	
 	public static int dEncoderR1 = 2;
 	public static int dEncoderR2 = 3;
+	
+	//sensors
+	public static int sUltrasonic = 4;
 	
 	//drivemotors
 	public static int dTalonL = 0;

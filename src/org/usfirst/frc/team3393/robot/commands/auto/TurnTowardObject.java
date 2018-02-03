@@ -2,12 +2,14 @@ package org.usfirst.frc.team3393.robot.commands.auto;
 
 import org.usfirst.frc.team3393.robot.Robot;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TurnTowardsObject extends CommandGroup {
+public class TurnTowardObject extends Command {
 	
-
+	private boolean finished = false;
+	
 	private static double gyroStart;
 	
 	private static double disparityTarget = 0;
@@ -20,12 +22,14 @@ public class TurnTowardsObject extends CommandGroup {
 	 * 
 	 * @param degrees degrees to rotate.
 	 */
-	public TurnTowardsObject(){
+	public TurnTowardObject(){
 		this.requires(Robot.drivetrain);
+		finished = false;
 	}
 	
 	@Override
 	protected void initialize() {
+		finished = false;
 //		turned = false;
 //		rotPositive = false;
 //		if(disparityTarget>=0) {
@@ -40,12 +44,13 @@ public class TurnTowardsObject extends CommandGroup {
 	 */
 	public void execute() {
 		double center = Robot.center;
-		if((center>=5.0) && (center<=80)) {
-			Robot.drivetrain.getDrivetrain().tankDrive(0.55, -0.55);
+		if((center>=5) && (center<=80)) {
+			Robot.drivetrain.getDrivetrain().tankDrive(0.5, -0.5);
 		} else if((center>=240) && (center<=315)) {
-			Robot.drivetrain.getDrivetrain().tankDrive(-0.55, 0.55);
+			Robot.drivetrain.getDrivetrain().tankDrive(-0.5, 0.5);
 		} else {
 			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
+			finished = true;
 		}
 		Robot.center = 0;
 //		double gyroCurrent = Robot.drivetrain.getGyro().getAngle();
@@ -71,7 +76,7 @@ public class TurnTowardsObject extends CommandGroup {
 	
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return finished;
 	}
 
 }
