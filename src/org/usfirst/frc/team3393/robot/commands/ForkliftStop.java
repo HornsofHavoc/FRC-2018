@@ -4,29 +4,29 @@ import org.usfirst.frc.team3393.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ForkliftFullDown extends Command {
+public class ForkliftStop extends Command {
 	
-	public ForkliftFullDown(){
+	private boolean finished;
+	
+	public ForkliftStop(){
 		this.requires(Robot.forklift);
+		finished = false;
 	}
 	
 	@Override
 	protected void initialize() {
-		
+		finished = false;
 	}
 	
 	@Override
 	protected void execute() {
-		if(!Robot.forklift.isSwitchSet()) {
-			Robot.forklift.forkliftFullDistend();
-		} else {
-			new ForkliftStop().start();
-		}
+		Robot.forklift.forkliftHoldPoint();
+		finished = true;
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return finished;
 	}
 
 }

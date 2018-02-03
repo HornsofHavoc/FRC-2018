@@ -9,12 +9,16 @@ package org.usfirst.frc.team3393.robot;
 public class RobotMap {
 	
 	/*FORKLIFT*/
+	//lift
 	public static int fSparkL = 2;
 	public static int fSparkR = 3;
 	public static int fTalonL = 2;
 	public static int fTalonR = 3;
 	public static int solenoidIn = 0;
 	public static int solenoidOut = 1;
+	
+	//sensors
+	public static int fLimitB = 5;
 	
 	/*GRABBIE*/
 	public static int grabbieL = 1;
