@@ -24,7 +24,7 @@ public class Grabbies extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		this.setDefaultCommand(new GrabbieIn());
+		this.setDefaultCommand(null);
 	}
 	
 	public void pullIn(){
