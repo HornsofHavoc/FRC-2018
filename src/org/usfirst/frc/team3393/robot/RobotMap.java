@@ -21,8 +21,8 @@ public class RobotMap {
 	public static int fLimitB = 5;
 	
 	/*GRABBIE*/
-	public static int grabbieL = 1;
-	public static int grabbieR = 0;
+	public static int grabbieL = 7;
+	public static int grabbieR = 8;
 	
 	/*DRIVETRAIN*/
 	//encoders

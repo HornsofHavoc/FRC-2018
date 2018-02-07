@@ -8,20 +8,21 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.PWMSpeedController;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Grabbies extends Subsystem {
 	
-	private static WPI_TalonSRX grabbieL;
-	private static WPI_TalonSRX grabbieR;
+	private static VictorSP grabbieL;
+	private static VictorSP grabbieR;
 	
 	private static boolean grabbieIn = false;
 	private static boolean grabbieOut = false;
 	
 	public Grabbies() {
-		grabbieL = new WPI_TalonSRX(RobotMap.grabbieL);
-		grabbieR = new WPI_TalonSRX(RobotMap.grabbieR);
+		grabbieL = new VictorSP(RobotMap.grabbieL);
+		grabbieR = new VictorSP(RobotMap.grabbieR);
 	}
 
 	@Override
@@ -29,13 +30,15 @@ public class Grabbies extends Subsystem {
 		this.setDefaultCommand(new GrabbieStop());
 	}
 	
+	//left in
 	public void pullIn(){
-		grabbieL.set(-1.0);
-		grabbieR.set(1.0);
+		grabbieL.set(1.0);
+		grabbieR.set(-1.0);
 		grabbieIn = true;
 		grabbieOut = false;
 	}
 	
+	//right out
 	public void pushOut() {
 		grabbieL.set(1.0);
 		grabbieR.set(-1.0);
