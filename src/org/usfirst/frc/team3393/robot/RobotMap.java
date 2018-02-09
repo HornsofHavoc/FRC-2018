@@ -10,19 +10,19 @@ public class RobotMap {
 	
 	/*FORKLIFT*/
 	//lift
-	public static int fSparkL = 2;
-	public static int fSparkR = 3;
-	public static int fTalonL = 2;
-	public static int fTalonR = 3;
+	public static int fVictorSPXL = 4;
+	public static int fVictorSPXR = 5;
+	public static int fVictorSPXL1 = 6;
+	public static int fVictorSPXR1 = 7;
 	public static int solenoidIn = 0;
 	public static int solenoidOut = 1;
 	
 	//sensors
-	public static int fLimitB = 5;
+	public static int fLimitB = 0;
 	
 	/*GRABBIE*/
-	public static int grabbieL = 7;
-	public static int grabbieR = 8;
+	public static int grabbieL = 8;
+	public static int grabbieR = 9;
 	
 	/*DRIVETRAIN*/
 	//encoders
@@ -38,9 +38,8 @@ public class RobotMap {
 	//drivemotors
 	public static int dTalonL = 0;
 	public static int dTalonR = 1;
-	
-	public static int dSparkL = 0;
-	public static int dSparkR = 1;
+	public static int dTalonL1 = 2;
+	public static int dTalonR1 = 3;
 	
 	//
 	

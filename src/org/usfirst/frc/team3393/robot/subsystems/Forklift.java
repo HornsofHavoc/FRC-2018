@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3393.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Counter;
@@ -25,20 +27,20 @@ public class Forklift extends Subsystem {
 	private static DigitalInput fLimitB;
 	private static Counter switchCounter;
 	
-	private static WPI_TalonSRX fTalonL;
-	private static WPI_TalonSRX fTalonR;
-	private static Spark fSparkL;
-	private static Spark fSparkR;
+	private static VictorSPX fVictorSPXL;
+	private static VictorSPX fVictorSPXR;
+	private static VictorSPX fVictorSPXL1;
+	private static VictorSPX fVictorSPXR1;
 	
 	public Forklift() {
 		solenoidIn = new Solenoid(RobotMap.solenoidIn);
 		solenoidOut = new Solenoid(RobotMap.solenoidOut);
 		fLimitB = new DigitalInput(RobotMap.fLimitB);
 		switchCounter = new Counter(fLimitB);
-		fTalonL = new WPI_TalonSRX(RobotMap.fTalonL);
-		fTalonR = new WPI_TalonSRX(RobotMap.fTalonR);
-		fSparkL = new Spark(RobotMap.fSparkL);
-		fSparkR = new Spark(RobotMap.fSparkR);
+		fVictorSPXL = new VictorSPX(RobotMap.fVictorSPXL);
+		fVictorSPXR = new VictorSPX(RobotMap.fVictorSPXR);
+		fVictorSPXL1 = new VictorSPX(RobotMap.fVictorSPXL1);
+		fVictorSPXR1 = new VictorSPX(RobotMap.fVictorSPXR1);
 	}
 	
 	@Override
@@ -58,29 +60,29 @@ public class Forklift extends Subsystem {
 	
 	public void forkliftFullExtend() {
 		forkliftSolenoidExtend();
-		fTalonL.set(0.8);
-		fTalonR.set(0.8);
-		fSparkL.set(0.8);
-		fSparkR.set(0.8);
+		fVictorSPXL.set(ControlMode.PercentOutput, 0.8);
+		fVictorSPXR.set(ControlMode.PercentOutput, 0.8);
+		fVictorSPXL1.set(ControlMode.PercentOutput, 0.8);
+		fVictorSPXR1.set(ControlMode.PercentOutput, 0.8);
 		forkUp = true;
 		forkDown = false;
 	}
 	
 	public void forkliftFullDistend() {
 		forkliftSolenoidDistend();
-		fTalonL.set(-0.8);
-		fTalonR.set(-0.8);
-		fSparkL.set(-0.8);
-		fSparkR.set(-0.8);
+		fVictorSPXL.set(ControlMode.PercentOutput, -0.8);
+		fVictorSPXR.set(ControlMode.PercentOutput, -0.8);
+		fVictorSPXL1.set(ControlMode.PercentOutput, -0.8);
+		fVictorSPXR1.set(ControlMode.PercentOutput, -0.8);
 		forkUp = false;
 		forkDown = true;
 	}
 	
 	public void forkliftHoldPoint() {
-		fTalonL.set(0);
-		fTalonR.set(0);
-		fSparkL.set(0);
-		fSparkR.set(0);
+		fVictorSPXL.set(ControlMode.PercentOutput, 0);
+		fVictorSPXR.set(ControlMode.PercentOutput, 0);
+		fVictorSPXL1.set(ControlMode.PercentOutput, 0);
+		fVictorSPXR1.set(ControlMode.PercentOutput, 0);
 		forkUp = false;
 		forkDown = false;
 	}

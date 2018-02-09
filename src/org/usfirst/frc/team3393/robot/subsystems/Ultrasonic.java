@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Ultrasonic extends Subsystem {
 	
-	 private static final AnalogInput ultrsonic = new AnalogInput(RobotMap.sUltrasonic);
+	 private static final AnalogInput ultrasonic = new AnalogInput(RobotMap.sUltrasonic);
 	 
 	 private static final double getInches = 1.0;
 	
 	 public static double getVoltage() {
-		 return ultrsonic.getVoltage();
+		 return ultrasonic.getVoltage();
 	 }
 	 
 	  public static double getDistance() {

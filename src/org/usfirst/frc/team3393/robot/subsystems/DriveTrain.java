@@ -16,11 +16,10 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class DriveTrain extends Subsystem{
 	
-	private static WPI_TalonSRX talonLeft;
-	private static WPI_TalonSRX talonRight;
-	
-	private static Spark sparkLeft;
-	private static Spark sparkRight;
+	private static WPI_TalonSRX dTalonL;
+	private static WPI_TalonSRX dTalonR;
+	private static WPI_TalonSRX dTalonL1;
+	private static WPI_TalonSRX dTalonR1;
 	private static SpeedControllerGroup driveLeft;
 	private static SpeedControllerGroup driveRight;
 	private static DifferentialDrive drivetrain;
@@ -35,12 +34,12 @@ public class DriveTrain extends Subsystem{
 		encoderRight.setDistancePerPulse((1.0/360.0));
 		encoderRight.setReverseDirection(true);
 		gyro = new ADXRS450_Gyro();
-		talonLeft = new WPI_TalonSRX(RobotMap.dTalonL);
-		talonRight = new WPI_TalonSRX(RobotMap.dTalonR);
-		sparkLeft = new Spark(RobotMap.dSparkL);
-		sparkRight = new Spark(RobotMap.dSparkR);
-		driveLeft = new SpeedControllerGroup(talonLeft, sparkLeft);
-		driveRight = new SpeedControllerGroup(talonRight, sparkRight);
+		dTalonL = new WPI_TalonSRX(RobotMap.dTalonL);
+		dTalonR = new WPI_TalonSRX(RobotMap.dTalonR);
+		dTalonL1 = new WPI_TalonSRX(RobotMap.dTalonL1);
+		dTalonR1 = new WPI_TalonSRX(RobotMap.dTalonR1);
+		driveLeft = new SpeedControllerGroup(dTalonL, dTalonL1);
+		driveRight = new SpeedControllerGroup(dTalonR, dTalonR1);
 		drivetrain = new DifferentialDrive(driveLeft, driveRight);
 		
 		gyro.calibrate();
@@ -65,60 +64,8 @@ public class DriveTrain extends Subsystem{
 		gyro.reset();
 	}
 
-	public WPI_TalonSRX getTalonLeft() {
-		return talonLeft;
-	}
-
-	public void setTalonLeft(WPI_TalonSRX talonLeft) {
-		DriveTrain.talonLeft = talonLeft;
-	}
-
-	public WPI_TalonSRX getTalonRight() {
-		return talonRight;
-	}
-
-	public void setTalonRight(WPI_TalonSRX talonRight) {
-		DriveTrain.talonRight = talonRight;
-	}
-
-	public Spark getSparkLeft() {
-		return sparkLeft;
-	}
-
-	public void setSparkLeft(Spark sparkLeft) {
-		DriveTrain.sparkLeft = sparkLeft;
-	}
-
-	public Spark getSparkRight() {
-		return sparkRight;
-	}
-
-	public void setSparkRight(Spark sparkRight) {
-		DriveTrain.sparkRight = sparkRight;
-	}
-
-	public SpeedControllerGroup getDriveLeft() {
-		return driveLeft;
-	}
-
-	public void setDriveLeft(SpeedControllerGroup driveLeft) {
-		DriveTrain.driveLeft = driveLeft;
-	}
-
-	public SpeedControllerGroup getDriveRight() {
-		return driveRight;
-	}
-
-	public void setDriveRight(SpeedControllerGroup driveRight) {
-		DriveTrain.driveRight = driveRight;
-	}
-
 	public DifferentialDrive getDrivetrain() {
 		return drivetrain;
-	}
-
-	public void setDrivetrain(DifferentialDrive drivetrain) {
-		DriveTrain.drivetrain = drivetrain;
 	}
 
 	public Encoder getLeftEncoder() {
@@ -142,6 +89,22 @@ public class DriveTrain extends Subsystem{
 
 	public ADXRS450_Gyro getGyro() {
 		return gyro;
+	}
+
+	public static WPI_TalonSRX getdTalonL() {
+		return dTalonL;
+	}
+
+	public static WPI_TalonSRX getdTalonR() {
+		return dTalonR;
+	}
+
+	public static WPI_TalonSRX getdTalonL1() {
+		return dTalonL1;
+	}
+
+	public static WPI_TalonSRX getdTalonR1() {
+		return dTalonR1;
 	}
 
 }
