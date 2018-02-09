@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3393.robot.commands.auto;
 
 import org.usfirst.frc.team3393.robot.Robot;
+import org.usfirst.frc.team3393.utils.TrackingSelector;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -11,6 +12,7 @@ public class TurnTowardObject extends Command {
 	private boolean finished = false;
 	
 	private static double gyroStart;
+	private static int selectionType;
 	
 	private static double disparityTarget = 0;
 	
@@ -22,9 +24,10 @@ public class TurnTowardObject extends Command {
 	 * 
 	 * @param degrees degrees to rotate.
 	 */
-	public TurnTowardObject(){
+	public TurnTowardObject(TrackingSelector selector){
 		this.requires(Robot.drivetrain);
 		finished = false;
+		selectionType = selector.getValue();
 	}
 	
 	@Override
@@ -43,16 +46,31 @@ public class TurnTowardObject extends Command {
 	 * Oh boy left is negative, right positive.
 	 */
 	public void execute() {
-		double center = Robot.center;
-		if((center>=5) && (center<=80)) {
+		double center = 0;
+		if(selectionType == 0 && Robot.center>0) {
+			//left
+			center = Robot.center;
+		} else if(selectionType == 1) {
+			//avg
+			if(Robot.center>0 && Robot.center2>0) {
+				center = (Robot.center+Robot.center2)/2;
+			} else if(Robot.center>0) {
+				center = Robot.center;
+			} else if(Robot.center2>0) {
+				center = Robot.center2;
+			}
+		} else if(selectionType == 2 && Robot.center2>0) {
+			//right
+			center = Robot.center2;
+		}
+		if((center>=5) && (center<=150)) {
 			Robot.drivetrain.getDrivetrain().tankDrive(0.58, -0.58);
-		} else if((center>=240) && (center<=315)) {
+		} else if((center>=170) && (center<=315)) {
 			Robot.drivetrain.getDrivetrain().tankDrive(-0.58, 0.58);
 		} else {
 			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
 			finished = true;
 		}
-		Robot.center = 0;
 //		double gyroCurrent = Robot.drivetrain.getGyro().getAngle();
 //		double disparityCurrent = gyroCurrent - gyroStart;
 //		double ratio = (disparityTarget-disparityCurrent)/disparityTarget;

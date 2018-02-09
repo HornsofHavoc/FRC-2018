@@ -18,12 +18,12 @@ public class Maths {
 	}
 	
 	//can is 4.875in, empirically derived bs.
-	public static double getObjectDistance(double pixels, double actualHeight) {
-		double doNum = (double) pixels/actualHeight;
+	public static double getObjectDistance(double pixelsWidth, double actualWidth) {
+		double doNum = (double) pixelsWidth/actualWidth;
 		//double calculated = (0.24*(doNum*doNum))-13.12*(doNum)+236.1;
-		double calculated  = Math.pow(doNum, -1.1087957217319);
-		calculated *= 78.867489071513;
-		return calculated*actualHeight;
+		double calculated  = Math.pow(doNum, -1.0890021870397);
+		calculated *= 476.37614279388;
+		return calculated*actualWidth;
 	}
 
 }

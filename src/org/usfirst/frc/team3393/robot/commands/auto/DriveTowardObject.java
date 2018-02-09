@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3393.robot.commands.auto;
 
 import org.usfirst.frc.team3393.robot.Robot;
+import org.usfirst.frc.team3393.utils.TrackingSelector;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -8,19 +9,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTowardObject extends Command {
 	
 	private static double gyroStart;
+	private static int selectionType;
 	
 	private static boolean finished;
 	private static double distanceObjective;
 	
-	public DriveTowardObject(double inches){
+	public DriveTowardObject(TrackingSelector selection, double inches){
 		this.requires(Robot.drivetrain);
+		selectionType = selection.getValue();
 		finished = false;
 		distanceObjective = inches;
 	}
 	
 	@Override
 	protected void initialize() {
-		finished = false;
 		gyroStart = Robot.drivetrain.getGyro().getAngle();
 //		turned = false;
 //		rotPositive = false;
@@ -35,7 +37,23 @@ public class DriveTowardObject extends Command {
 	 * Oh boy left is negative, right positive.
 	 */
 	public void execute() {
-		double distance = Robot.dist;
+		double distance = 0;
+		if(selectionType == 0 && Robot.dist>0) {
+			//left
+			distance = Robot.dist;
+		} else if(selectionType == 1) {
+			//avg
+			if(Robot.dist>0 && Robot.dist2>0) {
+				distance = (Robot.dist+Robot.dist2)/2;
+			} else if(Robot.dist>0) {
+				distance = Robot.dist;
+			} else if(Robot.dist2>0) {
+				distance = Robot.dist2;
+			}
+		} else if(selectionType == 2 && Robot.dist2>0) {
+			//right
+			distance = Robot.dist2;
+		}
 		double driveLeft = -0.55;
 		double driveRight = -0.55;
 //		if(gyroStart-Robot.drivetrain.getGyro().getAngle() > 0.01) {

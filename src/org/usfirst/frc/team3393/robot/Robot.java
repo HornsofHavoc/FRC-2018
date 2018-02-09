@@ -21,6 +21,7 @@ import org.usfirst.frc.team3393.robot.vision.CameraBoi;
 import org.usfirst.frc.team3393.robot.vision.GripPipeline;
 import org.usfirst.frc.team3393.utils.FRCNet;
 import org.usfirst.frc.team3393.utils.Maths;
+import org.usfirst.frc.team3393.utils.TrackingSelector;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -87,9 +88,13 @@ public class Robot extends IterativeRobot {
 	
 	public static double centerX;
 	public static double center;
-	
 	public static double distI;
 	public static double dist;
+	
+	public static double centerX2;
+	public static double center2;
+	public static double distI2;
+	public static double dist2;
 	
 	public static String gameData;
 
@@ -117,11 +122,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(grabbies);
 		
 		camera = new CameraBoi(CameraServer.getInstance().startAutomaticCapture(0));
-		camera.getCamera().setVideoMode(PixelFormat.kMJPEG, 320, 240, 30);
-		camera.getCamera().setExposureManual(40);
-		camera.getCamera().setBrightness(50);
+		camera.getCamera().setVideoMode(PixelFormat.kMJPEG, 640, 480, 30);
+		camera.getCamera().setExposureManual(18);
+		camera.getCamera().setBrightness(18);
 		contourServer = new MjpegServer("contours", 1189);
-		contourSource = new CvSource("contours", PixelFormat.kGray, 320, 240, 10);
+		contourSource = new CvSource("contours", PixelFormat.kGray, 640, 480, 10);
 		SmartDashboard.putString("Contour Server", contourServer.getListenAddress()+":"+contourServer.getPort());
 		contourServer.setSource(contourSource);
 //		contourImage = new Mat(320, 240, CvType.CV_32SC1);
@@ -129,22 +134,41 @@ public class Robot extends IterativeRobot {
 			//double centerX;
 			@Override
 			public void copyPipelineOutputs(GripPipeline pipeline) {
-				if (!pipeline.filterContoursOutput().isEmpty()) {
+				if (pipeline.filterContoursOutput().size()>0) {
 		            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 		            synchronized (imgLock) {
 		                centerX = r.x + (r.width / 2);
 		                distI = 0;
-		                if(r.height>8&&r.width>8) {
-		                	distI = Maths.getObjectDistance(r.height, 4.875);
+		                if(r.height>4&&r.width>4) {
+		                	distI = Maths.getObjectDistance(r.width, 2.0);
 		                }
-		                SmartDashboard.putNumber("Object Height (Pixels)", r.height);
-		                SmartDashboard.putNumber("Object Distance (Inches)", Maths.getObjectDistance(r.height, 4.875));
+		                SmartDashboard.putNumber("Object (0) Width (Pixels)", r.width);
+		                SmartDashboard.putNumber("Object (0) Distance (Inches)", Maths.getObjectDistance(r.width, 2.0));
 		                //FRCNet.readNetworkTableContours();
 		            }
 		        } else {
 		        	synchronized (imgLock) {
 		                centerX = 0;
 		                distI = 0;
+		                //FRCNet.readNetworkTableContours();
+		            }
+		        }
+				if (pipeline.filterContoursOutput().size()>1) {
+		            Rect r2 = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
+		            synchronized (imgLock) {
+		                centerX2 = r2.x + (r2.width / 2);
+		                distI2 = 0;
+		                if(r2.height>4&&r2.width>4) {
+		                	distI2 = Maths.getObjectDistance(r2.width, 2.0);
+		                }
+		                SmartDashboard.putNumber("Object (1) Width (Pixels)", r2.width);
+		                SmartDashboard.putNumber("Object (1) Distance (Inches)", Maths.getObjectDistance(r2.width, 2.0));
+		                //FRCNet.readNetworkTableContours();
+		            }
+		        } else {
+		        	synchronized (imgLock) {
+		                centerX2 = 0;
+		                distI2 = 0;
 		                //FRCNet.readNetworkTableContours();
 		            }
 		        }
@@ -212,7 +236,7 @@ public class Robot extends IterativeRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 		// schedule the autonomous command (example)
-		autoComm = new TurnTowardObject();
+		autoComm = new TurnTowardObject(TrackingSelector.AVERAGE);
 		autoComm.start();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -238,7 +262,7 @@ public class Robot extends IterativeRobot {
 //			}
 		}
 		if(!autoComm.isRunning()) {
-			autoComm = new TurnTowardObject();
+			autoComm = new TurnTowardObject(TrackingSelector.AVERAGE);
 			autoComm.start();
 		}
 		Timer.delay(.0001);
