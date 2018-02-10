@@ -1,8 +1,10 @@
 package org.usfirst.frc.team3393.robot;
 
-import org.usfirst.frc.team3393.robot.commands.ForkliftFullDown;
-import org.usfirst.frc.team3393.robot.commands.ForkliftFullUp;
+import org.usfirst.frc.team3393.robot.commands.ForkliftSolenoidDown;
+import org.usfirst.frc.team3393.robot.commands.ForkliftSolenoidUp;
 import org.usfirst.frc.team3393.robot.commands.ForkliftStop;
+import org.usfirst.frc.team3393.robot.commands.ForkliftWinchDown;
+import org.usfirst.frc.team3393.robot.commands.ForkliftWinchUp;
 import org.usfirst.frc.team3393.robot.commands.GrabbieIn;
 import org.usfirst.frc.team3393.robot.commands.GrabbieOut;
 import org.usfirst.frc.team3393.robot.commands.GrabbieStop;
@@ -27,6 +29,9 @@ public class OI {
 	private static JoystickButton forkliftUpButton2;
 	private static JoystickButton forkliftDownButton2;
 	
+	private static JoystickButton slowBoiUp;
+	private static JoystickButton slowBoiDown;
+	
 	public OI() {
 		left = new Joystick(0);
 		right = new Joystick(1);
@@ -39,21 +44,28 @@ public class OI {
 		grabbieButton.whenPressed(new GrabbieOut());
 		grabbieButton.whenReleased(new GrabbieStop());
 		
-		forkliftUpButton = new JoystickButton(left, 4);
-		forkliftUpButton.whenPressed(new ForkliftFullUp());
-		forkliftUpButton.whenReleased(new ForkliftStop());
+		forkliftUpButton = new JoystickButton(left, 3);
+		forkliftUpButton.whenPressed(new ForkliftSolenoidUp());
 		
-		forkliftUpButton2 = new JoystickButton(right, 4);
-		forkliftUpButton2.whenPressed(new ForkliftFullUp());
+		forkliftUpButton2 = new JoystickButton(right, 3);
+		forkliftUpButton2.whenPressed(new ForkliftWinchUp(0.9));
 		forkliftUpButton2.whenReleased(new ForkliftStop());
 		
-		forkliftDownButton = new JoystickButton(left, 5);
-		forkliftDownButton.whenPressed(new ForkliftFullDown());
-		forkliftDownButton.whenReleased(new ForkliftStop());
+		forkliftDownButton = new JoystickButton(left, 2);
+		forkliftDownButton.whenPressed(new ForkliftSolenoidDown());
 		
-		forkliftDownButton2 = new JoystickButton(right, 5);
-		forkliftDownButton2.whenPressed(new ForkliftFullDown());
+		forkliftDownButton2 = new JoystickButton(right, 2);
+		forkliftDownButton2.whenPressed(new ForkliftWinchDown(-0.9));
 		forkliftDownButton2.whenReleased(new ForkliftStop());
+		
+		
+		slowBoiUp = new JoystickButton(right, 11);
+		slowBoiUp.whenPressed(new ForkliftWinchUp(0.2));
+		slowBoiUp.whenReleased(new ForkliftStop());
+		
+		slowBoiDown = new JoystickButton(right, 10);
+		slowBoiDown.whenPressed(new ForkliftWinchDown(-0.2));
+		slowBoiDown.whenReleased(new ForkliftStop());
 		
 		SmartDashboard.putData("Tank Drive", new TankDrive());
 	}

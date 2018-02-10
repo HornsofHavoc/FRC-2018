@@ -7,10 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * A {@link Command} that sets the Forklift's solenoid to extend and it's motors to extend it further.
  */
-public class ForkliftFullUp extends Command {
+public class ForkliftWinchUp extends Command {
 	
-	public ForkliftFullUp(){
+	private static double winchSpeed;
+	
+	public ForkliftWinchUp(double speed){
 		this.requires(Robot.forklift);
+		winchSpeed = speed;
 	}
 	
 	@Override
@@ -20,7 +23,7 @@ public class ForkliftFullUp extends Command {
 	
 	@Override
 	protected void execute() {
-		Robot.forklift.forkliftFullExtend();
+		Robot.forklift.forkliftFullExtend(winchSpeed);
 	}
 
 	@Override

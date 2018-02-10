@@ -7,10 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * A {@link Command} that sets the Forklift's solenoid to distend and it's motors to distend it further.
  */
-public class ForkliftFullDown extends Command {
+public class ForkliftWinchDown extends Command {
 	
-	public ForkliftFullDown(){
+	private static double winchSpeed;
+	
+	public ForkliftWinchDown(double speed){
 		this.requires(Robot.forklift);
+		winchSpeed = speed;
 	}
 	
 	@Override
@@ -21,7 +24,7 @@ public class ForkliftFullDown extends Command {
 	@Override
 	protected void execute() {
 		if(!Robot.forklift.isSwitchSet()) {
-			Robot.forklift.forkliftFullDistend();
+			Robot.forklift.forkliftFullDistend(winchSpeed);
 		} else {
 			new ForkliftStop().start();
 		}

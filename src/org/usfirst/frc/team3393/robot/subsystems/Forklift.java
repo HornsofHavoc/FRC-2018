@@ -28,7 +28,7 @@ public class Forklift extends Subsystem {
 	
 	private static Solenoid solenoidIn;
 	private static Solenoid solenoidOut;
-	private static DigitalInput fLimitB;
+	//private static DigitalInput fLimitB;
 	private static Counter switchCounter;
 	
 	private static VictorSP fVictorSPXL;
@@ -39,8 +39,8 @@ public class Forklift extends Subsystem {
 	public Forklift() {
 		solenoidIn = new Solenoid(RobotMap.solenoidIn);
 		solenoidOut = new Solenoid(RobotMap.solenoidOut);
-		fLimitB = new DigitalInput(RobotMap.fLimitB);
-		switchCounter = new Counter(fLimitB);
+		//fLimitB = new DigitalInput(RobotMap.fLimitB);
+		//switchCounter = new Counter(fLimitB);
 		fVictorSPXL = new VictorSP(RobotMap.fVictorSPXL);
 		fVictorSPXR = new VictorSP(RobotMap.fVictorSPXR);
 		fVictorSPXL1 = new VictorSP(RobotMap.fVictorSPXL1);
@@ -69,27 +69,25 @@ public class Forklift extends Subsystem {
 	}
 	
 	/**
-	 * Uses {@link #forkliftSolenoidExtend()} and sets the forklift motors to raise the {@link Grabbies}.
+	 * Sets the forklift motors to raise the {@link Grabbies}.
 	 */
-	public void forkliftFullExtend() {
-		forkliftSolenoidExtend();
-		fVictorSPXL.set(0.8);
-		fVictorSPXR.set(0.8);
-		fVictorSPXL1.set(0.8);
-		fVictorSPXR1.set(0.8);
+	public void forkliftFullExtend(double speed) {
+		fVictorSPXL.set(speed);
+		fVictorSPXR.set(speed);
+		fVictorSPXL1.set(speed);
+		fVictorSPXR1.set(speed);
 		forkUp = true;
 		forkDown = false;
 	}
 
 	/**
-	 * Uses {@link #forkliftFullDistend()} and sets the forklift motors to lower the {@link Grabbies}.
+	 * Sets the forklift motors to lower the {@link Grabbies}.
 	 */
-	public void forkliftFullDistend() {
-		forkliftSolenoidDistend();
-		fVictorSPXL.set(-0.8);
-		fVictorSPXR.set(-0.8);
-		fVictorSPXL1.set(-0.8);
-		fVictorSPXR1.set(-0.8);
+	public void forkliftFullDistend(double speed) {
+		fVictorSPXL.set(speed);
+		fVictorSPXR.set(speed);
+		fVictorSPXL1.set(speed);
+		fVictorSPXR1.set(speed);
 		forkUp = false;
 		forkDown = true;
 	}
@@ -111,7 +109,7 @@ public class Forklift extends Subsystem {
 	 * @return If the switch was activated.
 	 */
 	public boolean isSwitchSet() {
-        return switchCounter.get() > 0;
+        return false;
     }
 	
 	/**

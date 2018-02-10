@@ -47,8 +47,8 @@ public class Grabbies extends Subsystem {
 	 * Sets motors operating the pickup to push the power cube out.
 	 */
 	public void pushOut() {
-		grabbieL.set(1.0);
-		grabbieR.set(-1.0);
+		grabbieL.set(-1.0);
+		grabbieR.set(1.0);
 		grabbieIn = false;
 		grabbieOut = true;
 	}
