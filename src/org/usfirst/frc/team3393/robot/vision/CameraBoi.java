@@ -13,7 +13,5 @@ public class CameraBoi {
 	public UsbCamera getCamera() {
 		return camera;
 	}
-	
-	
 
 }

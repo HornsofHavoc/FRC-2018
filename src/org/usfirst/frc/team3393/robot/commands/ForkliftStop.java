@@ -4,6 +4,9 @@ import org.usfirst.frc.team3393.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * A {@link Command} that stops the Forklift's motors.
+ */
 public class ForkliftStop extends Command {
 	
 	private boolean finished;

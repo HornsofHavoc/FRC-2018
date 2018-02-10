@@ -6,6 +6,9 @@ import org.usfirst.frc.team3393.utils.TrackingSelector;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * A {@link Command} that does linear object tracking provided information from a {@link VisionPipeline}.
+ */
 public class DriveTowardObject extends Command {
 	
 	private static double gyroStart;
@@ -32,10 +35,8 @@ public class DriveTowardObject extends Command {
 //		gyroStart = Robot.drivetrain.getGyro().getAngle();
 	}
 
+	//left is positive, right is negative.
 	@Override
-	/**
-	 * Oh boy left is negative, right positive.
-	 */
 	public void execute() {
 		double distance = 0;
 		if(selectionType == 0 && Robot.dist>0) {

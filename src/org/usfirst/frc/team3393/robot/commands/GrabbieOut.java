@@ -4,6 +4,9 @@ import org.usfirst.frc.team3393.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * A {@link Command} that sets the Grabbies' motors to push the box out.
+ */
 public class GrabbieOut extends Command {
 	
 	public GrabbieOut(){

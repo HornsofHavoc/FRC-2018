@@ -10,10 +10,10 @@ public class RobotMap {
 	
 	/*FORKLIFT*/
 	//lift
-	public static int fVictorSPXL = 4;
-	public static int fVictorSPXR = 5;
-	public static int fVictorSPXL1 = 6;
-	public static int fVictorSPXR1 = 7;
+	public static int fVictorSPXL = 2;
+	public static int fVictorSPXR = 3;
+	public static int fVictorSPXL1 = 4;
+	public static int fVictorSPXR1 = 5;
 	public static int solenoidIn = 0;
 	public static int solenoidOut = 1;
 	
@@ -21,8 +21,8 @@ public class RobotMap {
 	public static int fLimitB = 0;
 	
 	/*GRABBIE*/
-	public static int grabbieL = 8;
-	public static int grabbieR = 9;
+	public static int grabbieL = 0;
+	public static int grabbieR = 1;
 	
 	/*DRIVETRAIN*/
 	//encoders
@@ -41,15 +41,4 @@ public class RobotMap {
 	public static int dTalonL1 = 2;
 	public static int dTalonR1 = 3;
 	
-	//
-	
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
-
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
 }

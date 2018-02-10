@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * A {@link Subsystem} that handles methods related to moving the robots power cubes pickup and placing system.
+ */
 public class Grabbies extends Subsystem {
 	
 	private static VictorSP grabbieL;
@@ -30,7 +33,9 @@ public class Grabbies extends Subsystem {
 		this.setDefaultCommand(new GrabbieStop());
 	}
 	
-	//left in
+	/**
+	 * Sets motors operating the pickup to pull the power cube in. 
+	 */
 	public void pullIn(){
 		grabbieL.set(1.0);
 		grabbieR.set(-1.0);
@@ -38,7 +43,9 @@ public class Grabbies extends Subsystem {
 		grabbieOut = false;
 	}
 	
-	//right out
+	/**
+	 * Sets motors operating the pickup to push the power cube out.
+	 */
 	public void pushOut() {
 		grabbieL.set(1.0);
 		grabbieR.set(-1.0);
@@ -46,6 +53,9 @@ public class Grabbies extends Subsystem {
 		grabbieOut = true;
 	}
 	
+	/**
+	 * Sets motors operating the pickup to hold their position.
+	 */
 	public void stop() {
 		grabbieL.set(0);
 		grabbieR.set(0);
@@ -53,6 +63,9 @@ public class Grabbies extends Subsystem {
 		grabbieOut = false;
 	}
 	
+	/**
+	 * Adds relevant class information to the FRC {@link SmartDashboard}.
+	 */
 	public void reportToSmartDashboard(){
 		if(grabbieIn&&!grabbieOut) {
 			SmartDashboard.putString("Grabbie State", "Intake");

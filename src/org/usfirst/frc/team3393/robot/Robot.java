@@ -16,7 +16,6 @@ import org.usfirst.frc.team3393.robot.commands.auto.TurnTowardObject;
 import org.usfirst.frc.team3393.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3393.robot.subsystems.Forklift;
 import org.usfirst.frc.team3393.robot.subsystems.Grabbies;
-import org.usfirst.frc.team3393.robot.subsystems.Ultrasonic;
 import org.usfirst.frc.team3393.robot.vision.CameraBoi;
 import org.usfirst.frc.team3393.robot.vision.GripPipeline;
 import org.usfirst.frc.team3393.utils.FRCNet;
@@ -49,7 +48,7 @@ import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
- * The VM is configured to automatically run this class, and to call the
+ *  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
@@ -57,6 +56,8 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
  * 
  * If just loaded from git you'll need to manually add the wpi nature in the .project file
  * <nature>edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature</nature>
+ * @author MccluAS
+ *
  */
 @SuppressWarnings("unused")
 public class Robot extends IterativeRobot {
@@ -76,7 +77,6 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static Forklift forklift;
 	public static Grabbies grabbies;
-	public static Ultrasonic ultrasonic;
 	public static OI oi;
 	
 	public static PowerDistributionPanel pdp;
@@ -99,8 +99,7 @@ public class Robot extends IterativeRobot {
 	public static String gameData;
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and contains initialization code.
 	 */
 	@Override
 	public void robotInit() {
@@ -110,7 +109,6 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		forklift = new Forklift();
 		grabbies = new Grabbies();
-		ultrasonic = new Ultrasonic();
 		
 		oi = new OI();
 		//chooser.addDefault("Drive Rotate", new DriveRotate(-1440.0));
@@ -186,6 +184,9 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
+	/**
+	 * This function must be called no matter the reasoning for the robot starting, whether in autonomous or teleop.
+	 */
 	public static void onEnabled() {
 		drivetrain.resetEncoders();
 		dslink = DriverStation.getInstance();
@@ -193,8 +194,6 @@ public class Robot extends IterativeRobot {
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
 	 */
 	@Override
 	public void disabledInit() {
@@ -207,15 +206,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
+	 * This function is called at the start of the autonomous phase of competition.
+	 * It runs the appropriate command for the placement and objective of the robot provided FMS information.
 	 */
 	@Override
 	public void autonomousInit() {
@@ -243,7 +235,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This function is called periodically during autonomous
+	 * This function is called periodically during autonomous.
 	 */
 	@Override
 	public void autonomousPeriodic() {
@@ -268,6 +260,9 @@ public class Robot extends IterativeRobot {
 		Timer.delay(.0001);
 	}
 
+	/**
+	 * This function is called at the beginning of the teleoperated phase of competition.
+	 */
 	@Override
 	public void teleopInit() {
 		onEnabled();
@@ -290,7 +285,6 @@ public class Robot extends IterativeRobot {
 		drivetrain.reportToSmartDashboard();
 		forklift.reportToSmartDashboard();
 		grabbies.reportToSmartDashboard();
-		ultrasonic.reportToSmartDashBoard();
 		Timer.delay(0.0001);
 	}
 

@@ -5,6 +5,9 @@ import java.util.List;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.DriverStation;
 
+/**
+ * Deals with networking between the field and robot systems.
+ */
 public class FRCNet {
 	
 	public String crArea;

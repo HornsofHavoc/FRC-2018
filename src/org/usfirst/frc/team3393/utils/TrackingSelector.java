@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3393.utils;
 
+/**
+ * Enumerates the available tracking options.
+ */
 public enum TrackingSelector{
 	LEFT(0),
 	AVERAGE(1),
@@ -11,5 +14,8 @@ public enum TrackingSelector{
 		value = newValue;
 	}
 
+	/**
+	 * @return The numeric value of a definition.
+	 */
 	public int getValue() { return value; }
 }

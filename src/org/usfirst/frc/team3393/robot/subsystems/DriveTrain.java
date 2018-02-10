@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
+/**
+ * A {@link Subsystem} that handles methods related to moving parts of the robot's drivetrain.
+ */
 public class DriveTrain extends Subsystem{
 	
 	private static WPI_TalonSRX dTalonL;
@@ -50,32 +53,54 @@ public class DriveTrain extends Subsystem{
 		this.setDefaultCommand(new TankDrive());
 	}
 	
+	/**
+	 * @return The number of rotations completed by the left drive encoder, {@link #encoderLeft}, since it was last reset.
+	 */
 	public double getLeftEncoderTicks(){
 		return encoderLeft.getRaw();
 	}
 	
+	/**
+	 * @return The number of rotations completed by the right drive encoder, {@link #encoderRight}, since it was last reset.
+	 */
 	public double getRightEncoderTicks(){
 		return encoderRight.getRaw();
 	}
 	
+	/**
+	 * Resets the drivetrain encoder ticks and the gyro direction. Called when Autonomous and Teleop are enabled.
+	 */
 	public void resetEncoders(){
 		encoderLeft.reset();
 		encoderRight.reset();
 		gyro.reset();
 	}
 
+	/**
+	 * Returns an instance of {@link DifferentialDrive} used to drive the robot.
+	 * @return A DifferentialDrive made up of four two sets of {@link SpeedControllerGroup}
+	 */
 	public DifferentialDrive getDrivetrain() {
 		return drivetrain;
 	}
 
+	/**
+	 * @return An {@link Encoder}, {@link #encoderLeft}, associated with this instance of Drivetrain.
+	 */
 	public Encoder getLeftEncoder() {
 		return encoderLeft;
 	}
 	
+	/**
+	 * @return An {@link Encoder}, {@link #encoderRight}, associated with this instance of Drivetrain.
+	 */
 	public Encoder getRightEncoder() {
 		return encoderRight;
 	}
 	
+	/**
+	 * Adds relevant class information to the FRC {@link SmartDashboard}.
+	 */
 	public void reportToSmartDashboard(){
 		SmartDashboard.putNumber("Left Encoder", encoderLeft.getRaw());
 		SmartDashboard.putNumber("Left Encoder Distance", encoderLeft.getDistance());

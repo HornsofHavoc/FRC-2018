@@ -4,6 +4,9 @@ import org.usfirst.frc.team3393.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * A {@link CommandGroup} that subsequently calls {@link DriveStraight} and {@link DriveRotate} in order to drive in a square.
+ */
 public class DriveSquare extends CommandGroup {
 	
 	public DriveSquare() {

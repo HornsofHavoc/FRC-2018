@@ -4,6 +4,9 @@ import org.usfirst.frc.team3393.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * A {@link Command} that sets the Forklift's solenoid to distend.
+ */
 public class ForkliftSolenoidDown extends Command {
 	
 	private boolean finished;

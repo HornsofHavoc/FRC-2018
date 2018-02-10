@@ -4,6 +4,9 @@ import org.usfirst.frc.team3393.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * A {@link Command} used in teleop to drive the robot.
+ */
 public class TankDrive extends Command {
 	
 	public TankDrive(){

@@ -7,6 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * A {@link Command} that does rotational object tracking provided information from a {@link VisionPipeline}.
+ */
 public class TurnTowardObject extends Command {
 	
 	private boolean finished = false;
@@ -20,9 +23,8 @@ public class TurnTowardObject extends Command {
 	private static boolean turned;
 
 	/**
-	 * Turns the bot for a given amount of degrees.
-	 * 
-	 * @param degrees degrees to rotate.
+	 * Creates and instance of {@link TurnTowardObject} with the given {@link TrackingSelector}.
+	 * @param selector A {@link TrackingSelector} with options LEFT, AVERAGE, and RIGHT.
 	 */
 	public TurnTowardObject(TrackingSelector selector){
 		this.requires(Robot.drivetrain);
@@ -33,18 +35,10 @@ public class TurnTowardObject extends Command {
 	@Override
 	protected void initialize() {
 		finished = false;
-//		turned = false;
-//		rotPositive = false;
-//		if(disparityTarget>=0) {
-//			rotPositive = true;
-//		}
-//		gyroStart = Robot.drivetrain.getGyro().getAngle();
 	}
 
+	//left is negative, right is positive.
 	@Override
-	/**
-	 * Oh boy left is negative, right positive.
-	 */
 	public void execute() {
 		double center = 0;
 		if(selectionType == 0 && Robot.center>0) {
@@ -71,25 +65,6 @@ public class TurnTowardObject extends Command {
 			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
 			finished = true;
 		}
-//		double gyroCurrent = Robot.drivetrain.getGyro().getAngle();
-//		double disparityCurrent = gyroCurrent - gyroStart;
-//		double ratio = (disparityTarget-disparityCurrent)/disparityTarget;
-//		if(rotPositive) {
-//			SmartDashboard.putString("disparities", disparityCurrent+", "+disparityTarget);
-//			if(disparityCurrent<=(disparityTarget)) {
-//				Robot.drivetrain.getDrivetrain().tankDrive(-0.5+(-0.05*ratio), 0.5+(0.05*ratio));
-//			} else {
-//				Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
-//				turned = true;
-//			}
-//		} else {
-//			if(disparityCurrent>=(disparityTarget)) {
-//				Robot.drivetrain.getDrivetrain().tankDrive(0.5+(0.05*ratio), -0.5+(-0.05*ratio));
-//			} else {
-//				Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
-//				turned = true;
-//			}
-//		}
 	}
 	
 	@Override

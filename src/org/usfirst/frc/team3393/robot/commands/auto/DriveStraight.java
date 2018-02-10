@@ -6,6 +6,9 @@ import org.usfirst.frc.team3393.utils.Maths;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * A {@link Command} that drives the robot straight for a given number of inches.
+ */
 public class DriveStraight extends Command {
 	
 	private static double lEStart;
@@ -17,9 +20,8 @@ public class DriveStraight extends Command {
 	private static boolean traveled;
 
 	/**
-	 * Drive's the bot straight for a given amount of inches.
-	 * 
-	 * @param disparousInches inches to drive straight.
+	 * Drive's the robot straight for a given amount of inches.
+	 * @param disparousInches Inches to drive straight.
 	 */
 	public DriveStraight(double disparousInches){
 		disparityTarget = disparousInches;
@@ -35,9 +37,6 @@ public class DriveStraight extends Command {
 	}
 
 	@Override
-	/**
-	 * Yes I realize that the cims aren't perfect but this mess it works.
-	 */
 	public void execute() {
 		double lEDisparity = Maths.getEncoderInches(Robot.drivetrain.getLeftEncoder())-lEStart;
 		double rEDisparity = Maths.getEncoderInches(Robot.drivetrain.getRightEncoder())-rEStart;
@@ -51,7 +50,6 @@ public class DriveStraight extends Command {
 			driveRight = driveRight + (driveRight*Math.abs((gyroStart-Robot.drivetrain.getGyro().getAngle())/8));
 		}
 		Robot.drivetrain.getDrivetrain().tankDrive(driveLeft-0.4, driveRight-0.4);
-		SmartDashboard.putString("AAAA", lEDisparity+", "+rEDisparity+"    "+driveLeft+", "+driveRight);
 		if(driveLeft==0||driveRight==0) traveled = true;
 	}
 	

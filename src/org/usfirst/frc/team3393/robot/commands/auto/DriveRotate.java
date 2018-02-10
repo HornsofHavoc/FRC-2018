@@ -6,6 +6,9 @@ import org.usfirst.frc.team3393.utils.Maths;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * A {@link Command} that rotates the robot for a given number of inches.
+ */
 public class DriveRotate extends Command {
 
 	private static double gyroStart;
@@ -16,9 +19,9 @@ public class DriveRotate extends Command {
 	private static boolean turned;
 
 	/**
-	 * Turns the bot for a given amount of degrees.
+	 * Turns the robot for a given amount of degrees.
 	 * 
-	 * @param degrees degrees to rotate.
+	 * @param degrees Degrees to rotate.
 	 */
 	public DriveRotate(double degrees){
 		//empirically derived meme
@@ -36,10 +39,8 @@ public class DriveRotate extends Command {
 		gyroStart = Robot.drivetrain.getGyro().getAngle();
 	}
 
+	//left is negative, right is positive.
 	@Override
-	/**
-	 * Oh boy left is negative, right positive.
-	 */
 	public void execute() {
 		double gyroCurrent = Robot.drivetrain.getGyro().getAngle();
 		double disparityCurrent = gyroCurrent - gyroStart;
