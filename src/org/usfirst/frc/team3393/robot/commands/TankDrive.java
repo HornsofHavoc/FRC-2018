@@ -16,6 +16,7 @@ public class TankDrive extends Command {
 	@Override
 	public void execute() {
 		Robot.drivetrain.getDrivetrain().tankDrive(Robot.oi.getLeftJoystick().getY(), Robot.oi.getRightJoystick().getY());
+		//Robot.forklift.joystickBoi(Robot.oi.getRightJoystick());
 	}
 	
 	@Override

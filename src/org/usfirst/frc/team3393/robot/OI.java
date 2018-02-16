@@ -48,14 +48,14 @@ public class OI {
 		forkliftUpButton.whenPressed(new ForkliftSolenoidUp());
 		
 		forkliftUpButton2 = new JoystickButton(right, 3);
-		forkliftUpButton2.whenPressed(new ForkliftWinchUp(0.9));
+		forkliftUpButton2.whenPressed(new ForkliftWinchUp(0.8));
 		forkliftUpButton2.whenReleased(new ForkliftStop());
 		
 		forkliftDownButton = new JoystickButton(left, 2);
 		forkliftDownButton.whenPressed(new ForkliftSolenoidDown());
 		
 		forkliftDownButton2 = new JoystickButton(right, 2);
-		forkliftDownButton2.whenPressed(new ForkliftWinchDown(-0.9));
+		forkliftDownButton2.whenPressed(new ForkliftWinchDown(-0.8));
 		forkliftDownButton2.whenReleased(new ForkliftStop());
 		
 		
