@@ -36,9 +36,9 @@ public class Grabbies extends Subsystem {
 	/**
 	 * Sets motors operating the pickup to pull the power cube in. 
 	 */
-	public void pullIn(){
-		grabbieL.set(1.0);
-		grabbieR.set(-1.0);
+	public void pullIn(double speed){
+		grabbieL.set(speed);
+		grabbieR.set(-speed);
 		grabbieIn = true;
 		grabbieOut = false;
 	}
@@ -46,9 +46,9 @@ public class Grabbies extends Subsystem {
 	/**
 	 * Sets motors operating the pickup to push the power cube out.
 	 */
-	public void pushOut() {
-		grabbieL.set(-1.0);
-		grabbieR.set(1.0);
+	public void pushOut(double speed) {
+		grabbieL.set(-speed);
+		grabbieR.set(speed);
 		grabbieIn = false;
 		grabbieOut = true;
 	}

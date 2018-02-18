@@ -2,6 +2,7 @@ package org.usfirst.frc.team3393.robot.commands;
 
 import org.usfirst.frc.team3393.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -9,18 +10,27 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GrabbieOut extends Command {
 	
-	public GrabbieOut(){
+	private static double grabSpeed;
+	
+	public GrabbieOut(double speed){
 		this.requires(Robot.grabbies);
+		grabSpeed = speed;
+	}
+	
+	public GrabbieOut(double speed, double seconds){
+		this.requires(Robot.grabbies);
+		grabSpeed = speed;
+		this.setTimeout(seconds);
 	}
 	
 	@Override
 	protected void execute() {
-		Robot.grabbies.pushOut();
+		Robot.grabbies.pushOut(grabSpeed);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return this.isTimedOut();
 	}
 
 }

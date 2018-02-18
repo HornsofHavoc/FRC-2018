@@ -13,7 +13,7 @@ public class ForkliftWinchDown extends Command {
 	
 	public ForkliftWinchDown(double speed){
 		this.requires(Robot.forklift);
-		winchSpeed = speed;
+		winchSpeed = -speed;
 	}
 	
 	@Override

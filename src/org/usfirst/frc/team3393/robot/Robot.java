@@ -13,6 +13,7 @@ import org.usfirst.frc.team3393.robot.commands.auto.DriveStraight;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveTowardObject;
 import org.usfirst.frc.team3393.robot.commands.auto.FollowObject;
 import org.usfirst.frc.team3393.robot.commands.auto.TurnTowardObject;
+import org.usfirst.frc.team3393.robot.commands.autoset.StraightAheadAuto;
 import org.usfirst.frc.team3393.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3393.robot.subsystems.Forklift;
 import org.usfirst.frc.team3393.robot.subsystems.Grabbies;
@@ -137,7 +138,7 @@ public class Robot extends IterativeRobot {
 		            synchronized (imgLock) {
 		                centerX = r.x + (r.width / 2);
 		                distI = 0;
-		                if(r.height>4&&r.width>4) {
+		                if(r.area()>30) {
 		                	distI = Maths.getObjectDistance(r.width, 2.0);
 		                }
 		                SmartDashboard.putNumber("Object (0) Width (Pixels)", r.width);
@@ -156,7 +157,7 @@ public class Robot extends IterativeRobot {
 		            synchronized (imgLock) {
 		                centerX2 = r2.x + (r2.width / 2);
 		                distI2 = 0;
-		                if(r2.height>4&&r2.width>4) {
+		                if(r2.area()>30) {
 		                	distI2 = Maths.getObjectDistance(r2.width, 2.0);
 		                }
 		                SmartDashboard.putNumber("Object (1) Width (Pixels)", r2.width);
@@ -228,7 +229,8 @@ public class Robot extends IterativeRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 		// schedule the autonomous command (example)
-		autoComm = new TurnTowardObject(TrackingSelector.AVERAGE);
+		//autoComm = new FollowObject(TrackingSelector.AVERAGE, TrackingSelector.AVERAGE, 24);
+		autoComm = new StraightAheadAuto();
 		autoComm.start();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -253,10 +255,10 @@ public class Robot extends IterativeRobot {
 //			//Put right auto code here
 //			}
 		}
-		if(!autoComm.isRunning()) {
-			autoComm = new TurnTowardObject(TrackingSelector.AVERAGE);
-			autoComm.start();
-		}
+		//if(!autoComm.isRunning()) {
+			//autoComm = new FollowObject(TrackingSelector.AVERAGE, TrackingSelector.AVERAGE, 24);
+			//autoComm.start();
+		//}
 		Timer.delay(.0001);
 	}
 
@@ -285,7 +287,12 @@ public class Robot extends IterativeRobot {
 		drivetrain.reportToSmartDashboard();
 		forklift.reportToSmartDashboard();
 		grabbies.reportToSmartDashboard();
+		reportToSmartDashboard();
 		Timer.delay(0.0001);
+	}
+	
+	public static void reportToSmartDashboard() {
+		
 	}
 
 	/**

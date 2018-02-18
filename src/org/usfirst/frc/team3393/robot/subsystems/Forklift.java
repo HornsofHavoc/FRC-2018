@@ -29,23 +29,21 @@ public class Forklift extends Subsystem {
 	
 	private static Solenoid solenoidIn;
 	private static Solenoid solenoidOut;
-	//private static DigitalInput fLimitB;
-	private static Counter switchCounter;
+	private static DigitalInput fLimitB;
 	
-	private static VictorSPX fVictorSPXL;
-	private static VictorSPX fVictorSPXR;
-	private static VictorSPX fVictorSPXL1;
-	private static VictorSPX fVictorSPXR1;
+	private static VictorSP fVictorSPXL;
+	private static VictorSP fVictorSPXR;
+	private static VictorSP fVictorSPXL1;
+	private static VictorSP fVictorSPXR1;
 	
 	public Forklift() {
 		solenoidIn = new Solenoid(RobotMap.solenoidIn);
 		solenoidOut = new Solenoid(RobotMap.solenoidOut);
-		//fLimitB = new DigitalInput(RobotMap.fLimitB);
-		//switchCounter = new Counter(fLimitB);
-		fVictorSPXL = new VictorSPX(RobotMap.fVictorSPXL);
-		fVictorSPXR = new VictorSPX(RobotMap.fVictorSPXR);
-		fVictorSPXL1 = new VictorSPX(RobotMap.fVictorSPXL1);
-		fVictorSPXR1 = new VictorSPX(RobotMap.fVictorSPXR1);
+		fLimitB = new DigitalInput(RobotMap.fLimitB);
+		fVictorSPXL = new VictorSP(RobotMap.fVictorSPXL);
+		fVictorSPXR = new VictorSP(RobotMap.fVictorSPXR);
+		fVictorSPXL1 = new VictorSP(RobotMap.fVictorSPXL1);
+		fVictorSPXR1 = new VictorSP(RobotMap.fVictorSPXR1);
 	}
 	
 	@Override
@@ -74,10 +72,10 @@ public class Forklift extends Subsystem {
 	 */
 	public void forkliftFullExtend(double speed) {
 		speed = speed*5;
-		fVictorSPXL.set(ControlMode.PercentOutput, speed);
-		fVictorSPXR.set(ControlMode.PercentOutput, speed);
-		fVictorSPXL1.set(ControlMode.PercentOutput, speed);
-		fVictorSPXR1.set(ControlMode.PercentOutput, speed);
+		fVictorSPXL.set(speed);
+		fVictorSPXR.set(speed);
+		fVictorSPXL1.set(speed);
+		fVictorSPXR1.set(speed);
 		forkUp = true;
 		forkDown = false;
 	}
@@ -87,10 +85,10 @@ public class Forklift extends Subsystem {
 	 */
 	public void forkliftFullDistend(double speed) {
 		speed = speed*5;
-		fVictorSPXL.set(ControlMode.PercentOutput, speed);
-		fVictorSPXR.set(ControlMode.PercentOutput, speed);
-		fVictorSPXL1.set(ControlMode.PercentOutput, speed);
-		fVictorSPXR1.set(ControlMode.PercentOutput, speed);
+		fVictorSPXL.set(speed);
+		fVictorSPXR.set(speed);
+		fVictorSPXL1.set(speed);
+		fVictorSPXR1.set(speed);
 		forkUp = false;
 		forkDown = true;
 	}
@@ -100,20 +98,20 @@ public class Forklift extends Subsystem {
 	 * @param b A Joyboi.
 	 */
 	public static void joystickBoi(Joystick b) {
-		fVictorSPXL.set(ControlMode.PercentOutput, b.getY()*5);
-		fVictorSPXR.set(ControlMode.PercentOutput, b.getY()*5);
-		fVictorSPXL1.set(ControlMode.PercentOutput, b.getY()*5);
-		fVictorSPXR1.set(ControlMode.PercentOutput, b.getY()*5);
+		fVictorSPXL.set(b.getY()*5);
+		fVictorSPXR.set(b.getY()*5);
+		fVictorSPXL1.set(b.getY()*5);
+		fVictorSPXR1.set(b.getY()*5);
 	}
 	
 	/**
 	 * Sets the forklift motors to hold their current position.
 	 */
 	public void forkliftHoldPoint() {
-		fVictorSPXL.set(ControlMode.PercentOutput, 0);
-		fVictorSPXR.set(ControlMode.PercentOutput, 0);
-		fVictorSPXL1.set(ControlMode.PercentOutput, 0);
-		fVictorSPXR1.set(ControlMode.PercentOutput, 0);
+		fVictorSPXL.set(0);
+		fVictorSPXR.set(0);
+		fVictorSPXL1.set(0);
+		fVictorSPXR1.set(0);
 		forkUp = false;
 		forkDown = false;
 	}
@@ -123,7 +121,7 @@ public class Forklift extends Subsystem {
 	 * @return If the switch was activated.
 	 */
 	public boolean isSwitchSet() {
-        return false;
+        return !(fLimitB.get());
     }
 	
 	/**
@@ -137,6 +135,7 @@ public class Forklift extends Subsystem {
 		} else {
 			SmartDashboard.putString("Forklift State", "Hold");
 		}
+		SmartDashboard.putBoolean("Forklift Switch", isSwitchSet());
 	}
 
 }

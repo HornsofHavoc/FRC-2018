@@ -10,15 +10,15 @@ public class RobotMap {
 	
 	/*FORKLIFT*/
 	//lift
-	public static int fVictorSPXL = 5;
-	public static int fVictorSPXR = 6;
-	public static int fVictorSPXL1 = 7;
-	public static int fVictorSPXR1 = 8;
+	public static int fVictorSPXL = 2;
+	public static int fVictorSPXR = 3;
+	public static int fVictorSPXL1 = 4;
+	public static int fVictorSPXR1 = 5;
 	public static int solenoidIn = 0;
 	public static int solenoidOut = 1;
 	
 	//sensors
-	public static int fLimitB = 0;
+	public static int fLimitB = 9;
 	
 	/*GRABBIE*/
 	public static int grabbieL = 0;

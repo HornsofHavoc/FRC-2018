@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
  * A {@link Command} that stops the Grabbies' motors.
  */
 public class GrabbieStop extends Command {
-
-	private boolean finished;
+	
+	private static boolean finished;
 	
 	public GrabbieStop(){
 		this.requires(Robot.grabbies);
@@ -29,7 +29,7 @@ public class GrabbieStop extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return finished;
+		return false;
 	}
 
 }

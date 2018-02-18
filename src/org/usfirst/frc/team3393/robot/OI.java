@@ -37,11 +37,11 @@ public class OI {
 		right = new Joystick(1);
 		
 		grabbieButton = new JoystickButton(left, 1);
-		grabbieButton.whenPressed(new GrabbieIn());
+		grabbieButton.whenPressed(new GrabbieIn(0.5));
 		grabbieButton.whenReleased(new GrabbieStop());
 		
 		grabbieButton = new JoystickButton(right, 1);
-		grabbieButton.whenPressed(new GrabbieOut());
+		grabbieButton.whenPressed(new GrabbieOut(0.5));
 		grabbieButton.whenReleased(new GrabbieStop());
 		
 		forkliftUpButton = new JoystickButton(left, 3);
@@ -55,7 +55,7 @@ public class OI {
 		forkliftDownButton.whenPressed(new ForkliftSolenoidDown());
 		
 		forkliftDownButton2 = new JoystickButton(right, 2);
-		forkliftDownButton2.whenPressed(new ForkliftWinchDown(-0.8));
+		forkliftDownButton2.whenPressed(new ForkliftWinchDown(0.8));
 		forkliftDownButton2.whenReleased(new ForkliftStop());
 		
 		
@@ -64,7 +64,7 @@ public class OI {
 		slowBoiUp.whenReleased(new ForkliftStop());
 		
 		slowBoiDown = new JoystickButton(right, 10);
-		slowBoiDown.whenPressed(new ForkliftWinchDown(-0.2));
+		slowBoiDown.whenPressed(new ForkliftWinchDown(0.2));
 		slowBoiDown.whenReleased(new ForkliftStop());
 		
 		SmartDashboard.putData("Tank Drive", new TankDrive());
