@@ -17,7 +17,7 @@ public class FollowObject extends CommandGroup {
 	 */
 	public FollowObject(TrackingSelector rotationalSelector, TrackingSelector distanceSelector, int inches) {
 		this.addSequential(new TurnTowardObject(rotationalSelector));
-		this.addSequential(new DriveTowardObject(distanceSelector, 24+9));
+		this.addSequential(new DriveTowardObject(distanceSelector, inches));
 	}
 
 }

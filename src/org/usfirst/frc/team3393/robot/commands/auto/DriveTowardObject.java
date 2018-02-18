@@ -63,11 +63,11 @@ public class DriveTowardObject extends Command {
 //			driveRight = driveRight + (driveRight*Math.abs((gyroStart-Robot.drivetrain.getGyro().getAngle())/8));
 //		}
 		if(gyroStart - Robot.drivetrain.getGyro().getAngle() > 0.01) {
-			driveLeft = -0.55;
-			driveRight = -0.58;
-		} else if(gyroStart - Robot.drivetrain.getGyro().getAngle() < 0.01) {
-			driveLeft = -0.58;
+			driveLeft = -0.64;
 			driveRight = -0.55;
+		} else if(gyroStart - Robot.drivetrain.getGyro().getAngle() < 0.01) {
+			driveLeft = -0.55;
+			driveRight = -0.64;
 		} else {
 			driveLeft = -0.55;
 			driveRight = -0.55;
@@ -77,6 +77,7 @@ public class DriveTowardObject extends Command {
 			Robot.drivetrain.getDrivetrain().tankDrive(driveLeft, driveRight);
 		} else {
 			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
+			finished = true;
 		}
 //		double gyroCurrent = Robot.drivetrain.getGyro().getAngle();
 //		double disparityCurrent = gyroCurrent - gyroStart;
