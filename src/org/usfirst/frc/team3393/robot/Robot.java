@@ -191,6 +191,7 @@ public class Robot extends IterativeRobot {
 	public static void onEnabled() {
 		drivetrain.resetEncoders();
 		dslink = DriverStation.getInstance();
+		FRCNet.resetData();
 	}
 
 	/**
@@ -215,12 +216,9 @@ public class Robot extends IterativeRobot {
 		onEnabled();
 		autonomousCommand = chooser.getSelected();
 		
-		gameData = FRCNet.getDriverStation().getGameSpecificMessage();
-		if (gameData.charAt(0) == 'L') {
-			
-		} else {
-			
-		}
+		SmartDashboard.putString("Near Switch", ""+FRCNet.getNearSwitch());
+		SmartDashboard.putString("Scale", ""+FRCNet.getScale());
+		SmartDashboard.putString("Far Switch", ""+FRCNet.getFarSwitch());
 		//SmartDashboard.putString("Game Specific Message", dslink.getGameSpecificMessage());
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -268,6 +266,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		onEnabled();
+		SmartDashboard.putString("Near Switch", ""+FRCNet.getNearSwitch());
+		SmartDashboard.putString("Scale", ""+FRCNet.getScale());
+		SmartDashboard.putString("Far Switch", ""+FRCNet.getFarSwitch());
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
