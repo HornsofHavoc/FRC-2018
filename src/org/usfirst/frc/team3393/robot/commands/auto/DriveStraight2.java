@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * A {@link Command} that drives the robot straight for a given number of inches.
  */
-public class DriveStraight extends Command {
+public class DriveStraight2 extends Command {
 	
 	private static double lEStart;
 	private static double rEStart;
@@ -23,7 +23,7 @@ public class DriveStraight extends Command {
 	 * Drive's the robot straight for a given amount of inches.
 	 * @param disparousInches Inches to drive straight.
 	 */
-	public DriveStraight(double disparousInches){
+	public DriveStraight2(double disparousInches){
 		disparityTarget = disparousInches;
 		this.requires(Robot.drivetrain);
 	}

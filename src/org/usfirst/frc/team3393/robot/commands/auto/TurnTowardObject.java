@@ -13,11 +13,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TurnTowardObject extends Command {
 	
 	private boolean finished = false;
+	private boolean flipped = false;
+	private int begOof = 0;
 	
 	private static double gyroStart;
 	private static int selectionType;
 	
 	private static double disparityTarget = 0;
+	private static double edging = 0;
+	private static double centerlevel = 0;
 	
 	private static boolean rotPositive;
 	private static boolean turned;
@@ -26,15 +30,10 @@ public class TurnTowardObject extends Command {
 	 * Creates and instance of {@link TurnTowardObject} with the given {@link TrackingSelector}.
 	 * @param selector A {@link TrackingSelector} with options LEFT, AVERAGE, and RIGHT.
 	 */
-	public TurnTowardObject(TrackingSelector selector){
+	public TurnTowardObject(TrackingSelector selector, double edging, double centerlevel){
 		this.requires(Robot.drivetrain);
 		finished = false;
 		selectionType = selector.getValue();
-	}
-	
-	@Override
-	protected void initialize() {
-		finished = false;
 	}
 
 	//left is negative, right is positive.
@@ -57,11 +56,29 @@ public class TurnTowardObject extends Command {
 			//right
 			center = Robot.center2;
 		}
-		if((center>=5) && (center<=150)) {
-			Robot.drivetrain.getDrivetrain().tankDrive(-0.58, 0.58);
-		} else if((center>=170) && (center<=315)) {
-			Robot.drivetrain.getDrivetrain().tankDrive(0.58, -0.58);
+		if((center>=edging) && (center<=640/2-centerlevel)) {
+			if(begOof==0) {
+				begOof = 1;
+			} else if(begOof==1) {
+				flipped = true;
+			}
+			Robot.drivetrain.getDrivetrain().tankDrive(0.53, -0.53);
+		} else if((center>=640/2+centerlevel) && (center<=640-edging)) {
+			if(begOof==0) {
+				begOof = -1;
+			} else if(begOof==1) {
+				flipped = true;
+			}
+			Robot.drivetrain.getDrivetrain().tankDrive(-0.53, 0.53);
 		} else {
+			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
+			finished = true;
+		}
+		if(flipped) {
+			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
+			finished = true;
+		}
+		if(center<=345.0&&center>=315) {
 			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
 			finished = true;
 		}

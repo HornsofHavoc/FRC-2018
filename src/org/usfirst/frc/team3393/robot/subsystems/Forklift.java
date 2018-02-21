@@ -31,19 +31,15 @@ public class Forklift extends Subsystem {
 	private static Solenoid solenoidOut;
 	private static DigitalInput fLimitB;
 	
-	private static VictorSP fVictorSPXL;
-	private static VictorSP fVictorSPXR;
-	private static VictorSP fVictorSPXL1;
-	private static VictorSP fVictorSPXR1;
+	private static Spark fSparkL;
+	private static Spark fSparkR;
 	
 	public Forklift() {
 		solenoidIn = new Solenoid(RobotMap.solenoidIn);
 		solenoidOut = new Solenoid(RobotMap.solenoidOut);
 		fLimitB = new DigitalInput(RobotMap.fLimitB);
-		fVictorSPXL = new VictorSP(RobotMap.fVictorSPXL);
-		fVictorSPXR = new VictorSP(RobotMap.fVictorSPXR);
-		fVictorSPXL1 = new VictorSP(RobotMap.fVictorSPXL1);
-		fVictorSPXR1 = new VictorSP(RobotMap.fVictorSPXR1);
+		fSparkL = new Spark(RobotMap.fSparkL);
+		fSparkR = new Spark(RobotMap.fSparkR);
 	}
 	
 	@Override
@@ -72,10 +68,8 @@ public class Forklift extends Subsystem {
 	 */
 	public void forkliftFullExtend(double speed) {
 		speed = speed*5;
-		fVictorSPXL.set(speed);
-		fVictorSPXR.set(speed);
-		fVictorSPXL1.set(speed);
-		fVictorSPXR1.set(speed);
+		fSparkL.set(speed);
+		fSparkR.set(speed);
 		forkUp = true;
 		forkDown = false;
 	}
@@ -85,10 +79,8 @@ public class Forklift extends Subsystem {
 	 */
 	public void forkliftFullDistend(double speed) {
 		speed = speed*5;
-		fVictorSPXL.set(speed);
-		fVictorSPXR.set(speed);
-		fVictorSPXL1.set(speed);
-		fVictorSPXR1.set(speed);
+		fSparkL.set(speed);
+		fSparkR.set(speed);
 		forkUp = false;
 		forkDown = true;
 	}
@@ -98,20 +90,16 @@ public class Forklift extends Subsystem {
 	 * @param b A Joyboi.
 	 */
 	public static void joystickBoi(Joystick b) {
-		fVictorSPXL.set(b.getY()*5);
-		fVictorSPXR.set(b.getY()*5);
-		fVictorSPXL1.set(b.getY()*5);
-		fVictorSPXR1.set(b.getY()*5);
+		fSparkL.set(b.getY()*5);
+		fSparkR.set(b.getY()*5);
 	}
 	
 	/**
 	 * Sets the forklift motors to hold their current position.
 	 */
 	public void forkliftHoldPoint() {
-		fVictorSPXL.set(0);
-		fVictorSPXR.set(0);
-		fVictorSPXL1.set(0);
-		fVictorSPXR1.set(0);
+		fSparkL.set(0);
+		fSparkR.set(0);
 		forkUp = false;
 		forkDown = false;
 	}

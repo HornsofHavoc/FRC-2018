@@ -8,12 +8,15 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team3393.robot.commands.auto.DriveRotate;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveStraight;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveTowardObject;
 import org.usfirst.frc.team3393.robot.commands.auto.FollowObject;
 import org.usfirst.frc.team3393.robot.commands.auto.TurnTowardObject;
+import org.usfirst.frc.team3393.robot.commands.autoset.AlignedTrackAuto;
 import org.usfirst.frc.team3393.robot.commands.autoset.StraightAheadAuto;
+import org.usfirst.frc.team3393.robot.commands.autoset.SwitchLeftStartCenter;
+import org.usfirst.frc.team3393.robot.commands.autoset.SwitchRightStartCenter;
+import org.usfirst.frc.team3393.robot.subsystems.Climber;
 import org.usfirst.frc.team3393.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3393.robot.subsystems.Forklift;
 import org.usfirst.frc.team3393.robot.subsystems.Grabbies;
@@ -78,6 +81,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static Forklift forklift;
 	public static Grabbies grabbies;
+	public static Climber climber;
 	public static OI oi;
 	
 	public static PowerDistributionPanel pdp;
@@ -110,6 +114,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		forklift = new Forklift();
 		grabbies = new Grabbies();
+		climber = new Climber();
 		
 		oi = new OI();
 		//chooser.addDefault("Drive Rotate", new DriveRotate(-1440.0));
@@ -119,6 +124,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(forklift);
 		SmartDashboard.putData(grabbies);
+		SmartDashboard.putData(climber);
 		
 		camera = new CameraBoi(CameraServer.getInstance().startAutomaticCapture(0));
 		camera.getCamera().setVideoMode(PixelFormat.kMJPEG, 640, 480, 30);
@@ -178,6 +184,7 @@ public class Robot extends IterativeRobot {
 //                    Imgproc.drawContours(contourImage, hulls, i, new Scalar(255), 3);
 //                }
                 contourSource.putFrame(pipeline.hsvThresholdOutput());
+                SmartDashboard.putNumber("center", (centerX2+centerX)/2);
 //                contourImage = new Mat(320, 240, CvType.CV_32SC1);
 			}
 		});
@@ -228,7 +235,11 @@ public class Robot extends IterativeRobot {
 		 */
 		// schedule the autonomous command (example)
 		//autoComm = new FollowObject(TrackingSelector.AVERAGE, TrackingSelector.AVERAGE, 24);
-		autoComm = new StraightAheadAuto();
+		if(FRCNet.getNearSwitch()=='L') {
+			autoComm = new SwitchLeftStartCenter();
+		} else if (FRCNet.getNearSwitch()=='R') {
+			autoComm = new SwitchRightStartCenter();
+		}
 		autoComm.start();
 		if (autonomousCommand != null)
 			autonomousCommand.start();

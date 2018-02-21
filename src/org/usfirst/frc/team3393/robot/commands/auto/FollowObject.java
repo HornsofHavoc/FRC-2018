@@ -16,7 +16,7 @@ public class FollowObject extends CommandGroup {
 	 * @param inches The target distance away to be used by the {@link DriveTowardObject} command.
 	 */
 	public FollowObject(TrackingSelector rotationalSelector, TrackingSelector distanceSelector, int inches) {
-		this.addSequential(new TurnTowardObject(rotationalSelector));
+		this.addSequential(new TurnTowardObject(rotationalSelector, 5, 10));
 		this.addSequential(new DriveTowardObject(distanceSelector, inches));
 	}
 

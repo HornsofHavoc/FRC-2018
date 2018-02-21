@@ -11,13 +11,13 @@ public class DriveSquare extends CommandGroup {
 	
 	public DriveSquare() {
 		this.addSequential(new DriveStraight(15));
-		this.addSequential(new DriveRotate(90));
+		this.addSequential(new DriveRotatePositive(90));
 		this.addSequential(new DriveStraight(15));
-		this.addSequential(new DriveRotate(90));
+		this.addSequential(new DriveRotatePositive(90));
 		this.addSequential(new DriveStraight(15));
-		this.addSequential(new DriveRotate(90));
+		this.addSequential(new DriveRotatePositive(90));
 		this.addSequential(new DriveStraight(15));
-		this.addSequential(new DriveRotate(90));
+		this.addSequential(new DriveRotatePositive(90));
 		this.requires(Robot.drivetrain);
 	}
 

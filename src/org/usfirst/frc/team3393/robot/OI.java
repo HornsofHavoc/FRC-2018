@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3393.robot;
 
+import org.usfirst.frc.team3393.robot.commands.ClimberDown;
+import org.usfirst.frc.team3393.robot.commands.ClimberStop;
+import org.usfirst.frc.team3393.robot.commands.ClimberUp;
 import org.usfirst.frc.team3393.robot.commands.ForkliftSolenoidDown;
 import org.usfirst.frc.team3393.robot.commands.ForkliftSolenoidUp;
 import org.usfirst.frc.team3393.robot.commands.ForkliftStop;
@@ -23,11 +26,16 @@ public class OI {
 	private static Joystick left;
 	private static Joystick right;
 	
-	private static JoystickButton grabbieButton;
+	private static JoystickButton grabbieButtonIn;
+	private static JoystickButton grabbieButtonOut;
+	
 	private static JoystickButton forkliftUpButton;
 	private static JoystickButton forkliftDownButton;
 	private static JoystickButton forkliftUpButton2;
 	private static JoystickButton forkliftDownButton2;
+	
+	private static JoystickButton climberUp;
+	private static JoystickButton climberDown;
 	
 	private static JoystickButton slowBoiUp;
 	private static JoystickButton slowBoiDown;
@@ -36,13 +44,13 @@ public class OI {
 		left = new Joystick(0);
 		right = new Joystick(1);
 		
-		grabbieButton = new JoystickButton(left, 1);
-		grabbieButton.whenPressed(new GrabbieIn(0.5));
-		grabbieButton.whenReleased(new GrabbieStop());
+		grabbieButtonIn = new JoystickButton(left, 1);
+		grabbieButtonIn.whenPressed(new GrabbieIn(0.5));
+		grabbieButtonIn.whenReleased(new GrabbieStop());
 		
-		grabbieButton = new JoystickButton(right, 1);
-		grabbieButton.whenPressed(new GrabbieOut(0.5));
-		grabbieButton.whenReleased(new GrabbieStop());
+		grabbieButtonOut = new JoystickButton(right, 1);
+		grabbieButtonOut.whenPressed(new GrabbieOut(0.5));
+		grabbieButtonOut.whenReleased(new GrabbieStop());
 		
 		forkliftUpButton = new JoystickButton(left, 3);
 		forkliftUpButton.whenPressed(new ForkliftSolenoidUp());
@@ -58,6 +66,13 @@ public class OI {
 		forkliftDownButton2.whenPressed(new ForkliftWinchDown(0.8));
 		forkliftDownButton2.whenReleased(new ForkliftStop());
 		
+		climberUp = new JoystickButton(left, 6);
+		climberUp.whenPressed(new ClimberUp());
+		climberUp.whenReleased(new ClimberStop());
+		
+		climberDown = new JoystickButton(left, 7);
+		climberDown.whenPressed(new ClimberDown());
+		climberDown.whenReleased(new ClimberStop());
 		
 		slowBoiUp = new JoystickButton(right, 11);
 		slowBoiUp.whenPressed(new ForkliftWinchUp(0.2));

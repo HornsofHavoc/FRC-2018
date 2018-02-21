@@ -9,13 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * A {@link Command} that rotates the robot for a given number of inches.
  */
-public class DriveRotate extends Command {
+public class DriveRotateNegative extends Command {
 
 	private static double gyroStart;
 	
 	private static double disparityTarget = 0;
 	
-	private static boolean rotPositive;
 	private static boolean turned;
 
 	/**
@@ -23,19 +22,15 @@ public class DriveRotate extends Command {
 	 * 
 	 * @param degrees Degrees to rotate.
 	 */
-	public DriveRotate(double degrees){
+	public DriveRotateNegative(double degrees){
 		//empirically derived meme
-		disparityTarget = degrees - 3.9;
+		disparityTarget = -degrees + 2.9;
 		this.requires(Robot.drivetrain);
 	}
 	
 	@Override
 	protected void initialize() {
 		turned = false;
-		rotPositive = false;
-		if(disparityTarget>=0) {
-			rotPositive = true;
-		}
 		gyroStart = Robot.drivetrain.getGyro().getAngle();
 	}
 
@@ -45,21 +40,13 @@ public class DriveRotate extends Command {
 		double gyroCurrent = Robot.drivetrain.getGyro().getAngle();
 		double disparityCurrent = gyroCurrent - gyroStart;
 		double ratio = (disparityTarget-disparityCurrent)/disparityTarget;
-		if(rotPositive) {
-			SmartDashboard.putString("disparities", disparityCurrent+", "+disparityTarget);
-			if(disparityCurrent<=(disparityTarget)) {
-				Robot.drivetrain.getDrivetrain().tankDrive(-0.5+(-0.05*ratio), 0.5+(0.05*ratio));
-			} else {
-				Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
-				turned = true;
-			}
+		SmartDashboard.putNumber("dt", disparityTarget);
+		SmartDashboard.putNumber("dc", disparityCurrent);
+		if(disparityCurrent>=(disparityTarget)) {
+			Robot.drivetrain.getDrivetrain().tankDrive(0.76+(0.05*ratio), -0.53+(-0.05*ratio));
 		} else {
-			if(disparityCurrent>=(disparityTarget)) {
-				Robot.drivetrain.getDrivetrain().tankDrive(0.5+(0.05*ratio), -0.5+(-0.05*ratio));
-			} else {
-				Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
-				turned = true;
-			}
+			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
+			turned = true;
 		}
 	}
 	

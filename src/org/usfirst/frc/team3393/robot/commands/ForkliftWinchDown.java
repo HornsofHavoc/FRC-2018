@@ -23,7 +23,7 @@ public class ForkliftWinchDown extends Command {
 	
 	@Override
 	protected void execute() {
-		if(!Robot.forklift.isSwitchSet()) {
+		if(true) { //!Robot.forklift.isSwitchSet()) {
 			Robot.forklift.forkliftFullDistend(winchSpeed);
 		} else {
 			new ForkliftStop().start();
