@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3393.robot.commands.autoset;
 
+import org.usfirst.frc.team3393.robot.commands.GrabbieUp;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveRotateNegative;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveRotatePositive;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveStraight;
@@ -11,6 +12,7 @@ public class SwitchLeftStartCenter extends CommandGroup{
 	
 	public SwitchLeftStartCenter() {
 
+		this.addSequential(new GrabbieUp());
 		this.addSequential(new DriveStraight(50));
 		this.addSequential(new DriveRotateNegative(90));
 		this.addSequential(new DriveStraight2(80));

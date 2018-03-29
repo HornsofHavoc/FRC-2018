@@ -12,6 +12,7 @@ public class RobotMap {
 	//lift
 	public static int fSparkL = 6;
 	public static int fSparkR = 7;
+	
 	public static int solenoidIn = 0;
 	public static int solenoidOut = 1;
 	
@@ -21,6 +22,9 @@ public class RobotMap {
 	/*GRABBIE*/
 	public static int grabbieL = 0;
 	public static int grabbieR = 1;
+	
+	public static int grabbieUno = 2;
+	public static int grabbieDos = 3;
 	
 	/*CLIMBER*/
 	public static int cVictorSPXL = 2;
@@ -41,8 +45,8 @@ public class RobotMap {
 	
 	//drivemotors
 	public static int dTalonL = 0;
-	public static int dTalonR = 1;
-	public static int dTalonL1 = 2;
+	public static int dTalonL1 = 1;
+	public static int dTalonR = 2;
 	public static int dTalonR1 = 3;
 	
 }

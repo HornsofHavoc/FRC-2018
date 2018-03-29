@@ -1,8 +1,5 @@
 package org.usfirst.frc.team3393.utils;
 
-import java.util.List;
-
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,9 +26,11 @@ public class FRCNet {
 		matchAlliance = getDriverStation().getAlliance().name();
 		matchEvent = getDriverStation().getEventName();
 		matchFieldData = getDriverStation().getGameSpecificMessage();
-		fieldDataNS = matchFieldData.charAt(0);
-		fieldDataS = matchFieldData.charAt(1);
-		fieldDataFS = matchFieldData.charAt(2);
+		if(matchFieldData.length()>0) {
+			fieldDataNS = matchFieldData.charAt(0);
+			fieldDataS = matchFieldData.charAt(1);
+			fieldDataFS = matchFieldData.charAt(2);
+		}
 	}
 
 	public static String getMatchAlliance() {

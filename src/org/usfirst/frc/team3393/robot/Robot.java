@@ -13,6 +13,7 @@ import org.usfirst.frc.team3393.robot.commands.auto.DriveTowardObject;
 import org.usfirst.frc.team3393.robot.commands.auto.FollowObject;
 import org.usfirst.frc.team3393.robot.commands.auto.TurnTowardObject;
 import org.usfirst.frc.team3393.robot.commands.autoset.AlignedTrackAuto;
+import org.usfirst.frc.team3393.robot.commands.autoset.SelectLeftRight;
 import org.usfirst.frc.team3393.robot.commands.autoset.StraightAheadAuto;
 import org.usfirst.frc.team3393.robot.commands.autoset.SwitchLeftStartCenter;
 import org.usfirst.frc.team3393.robot.commands.autoset.SwitchRightStartCenter;
@@ -86,8 +87,6 @@ public class Robot extends IterativeRobot {
 	
 	public static PowerDistributionPanel pdp;
 	public static Compressor compressor;
-	
-	Command autonomousCommand = null;
 	Command autoComm = null;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	
@@ -108,6 +107,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
+		
 		pdp = new PowerDistributionPanel(0);
 		compressor = new Compressor(0);
 		
@@ -117,14 +118,16 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
 		
 		oi = new OI();
-		//chooser.addDefault("Drive Rotate", new DriveRotate(-1440.0));
-		//chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		
 		
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(forklift);
 		SmartDashboard.putData(grabbies);
 		SmartDashboard.putData(climber);
+		chooser.addDefault("Drive Straight", new StraightAheadAuto());
+		chooser.addObject("Mid Track", new SelectLeftRight());
+		SmartDashboard.putData("Auto Boi", chooser);
+		
 		
 		camera = new CameraBoi(CameraServer.getInstance().startAutomaticCapture(0));
 		camera.getCamera().setVideoMode(PixelFormat.kMJPEG, 640, 480, 30);
@@ -189,7 +192,6 @@ public class Robot extends IterativeRobot {
 			}
 		});
 	    visionThread.start();
-		
 	}
 	
 	/**
@@ -221,7 +223,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		onEnabled();
-		autonomousCommand = chooser.getSelected();
+		autoComm = chooser.getSelected();
+		autoComm = new StraightAheadAuto();
 		
 		SmartDashboard.putString("Near Switch", ""+FRCNet.getNearSwitch());
 		SmartDashboard.putString("Scale", ""+FRCNet.getScale());
@@ -235,14 +238,18 @@ public class Robot extends IterativeRobot {
 		 */
 		// schedule the autonomous command (example)
 		//autoComm = new FollowObject(TrackingSelector.AVERAGE, TrackingSelector.AVERAGE, 24);
-		if(FRCNet.getNearSwitch()=='L') {
-			autoComm = new SwitchLeftStartCenter();
-		} else if (FRCNet.getNearSwitch()=='R') {
-			autoComm = new SwitchRightStartCenter();
-		}
+		//if(FRCNet.getNearSwitch()=='L') {
+		//	autoComm = new SwitchLeftStartCenter();
+		//} else if (FRCNet.getNearSwitch()=='R') {
+		//	autoComm = new SwitchRightStartCenter();
+		//}
+		
+		
 		autoComm.start();
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		SmartDashboard.putString("Auto Command", autoComm.getName());
+		
+		//if (autonomousCommand != null)
+		//	autonomousCommand.start();
 	}
 
 	/**
@@ -250,6 +257,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+				
 		Scheduler.getInstance().run();
 		synchronized (imgLock) {
 			this.center = this.centerX;
@@ -271,6 +279,9 @@ public class Robot extends IterativeRobot {
 		Timer.delay(.0001);
 	}
 
+
+
+
 	/**
 	 * This function is called at the beginning of the teleoperated phase of competition.
 	 */
@@ -284,8 +295,6 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
 	}
 
 	/**
