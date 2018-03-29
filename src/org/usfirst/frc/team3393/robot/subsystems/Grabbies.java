@@ -88,7 +88,6 @@ public class Grabbies extends Subsystem {
 	public void grabbieReleaseStop() {
 		grabbieUp = false;
 		grabbieDown = false;
-		
 	}
 	
 	/**

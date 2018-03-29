@@ -8,6 +8,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3393.robot.commands.GrabbieUp;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveStraight;
 import org.usfirst.frc.team3393.robot.commands.auto.DriveTowardObject;
 import org.usfirst.frc.team3393.robot.commands.auto.FollowObject;
@@ -107,8 +108,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		
-		
 		pdp = new PowerDistributionPanel(0);
 		compressor = new Compressor(0);
 		
@@ -119,7 +118,6 @@ public class Robot extends IterativeRobot {
 		
 		oi = new OI();
 		
-		
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(forklift);
 		SmartDashboard.putData(grabbies);
@@ -127,7 +125,6 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Drive Straight", new StraightAheadAuto());
 		chooser.addObject("Mid Track", new SelectLeftRight());
 		SmartDashboard.putData("Auto Boi", chooser);
-		
 		
 		camera = new CameraBoi(CameraServer.getInstance().startAutomaticCapture(0));
 		camera.getCamera().setVideoMode(PixelFormat.kMJPEG, 640, 480, 30);
@@ -192,6 +189,7 @@ public class Robot extends IterativeRobot {
 			}
 		});
 	    visionThread.start();
+	    new GrabbieUp();
 	}
 	
 	/**
@@ -244,7 +242,6 @@ public class Robot extends IterativeRobot {
 		//	autoComm = new SwitchRightStartCenter();
 		//}
 		
-		
 		autoComm.start();
 		SmartDashboard.putString("Auto Command", autoComm.getName());
 		
@@ -257,7 +254,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-				
 		Scheduler.getInstance().run();
 		synchronized (imgLock) {
 			this.center = this.centerX;
