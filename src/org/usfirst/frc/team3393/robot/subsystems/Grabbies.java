@@ -14,23 +14,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Grabbies extends Subsystem {
 	
-	private static VictorSP grabbieL;
-	private static VictorSP grabbieR;
+	private VictorSP grabbieL;
+	private VictorSP grabbieR;
 	
-	private static Solenoid grabbieRelease;
-	private static Solenoid grabbieRelease2;
+	private Solenoid grabbieReleaseIn;
+	private Solenoid grabbieReleaseOut;
 	
-	private static boolean grabbieIn = false;
-	private static boolean grabbieOut = false;
-	private static boolean grabbieUp = false;
-	private static boolean grabbieDown = false;
+	private boolean grabbieIn = false;
+	private boolean grabbieOut = false;
+	private boolean grabbieUp = false;
+	private boolean grabbieDown = false;
 	
 	public Grabbies() {
 		grabbieL = new VictorSP(RobotMap.grabbieL);
 		grabbieR = new VictorSP(RobotMap.grabbieR);
 		
-		grabbieRelease = new Solenoid(RobotMap.grabbieUno);
-		grabbieRelease2 = new Solenoid(RobotMap.grabbieDos);
+		grabbieReleaseIn = new Solenoid(RobotMap.grabbieUno);
+		grabbieReleaseOut = new Solenoid(RobotMap.grabbieDos);
 	}
 
 	@Override
@@ -62,15 +62,15 @@ public class Grabbies extends Subsystem {
 	public void grabbieUp() {
 		grabbieUp = true; 
 		grabbieDown = false;
-		grabbieRelease.set(true);
-		grabbieRelease2.set(false);
+		grabbieReleaseOut.set(true);
+		grabbieReleaseIn.set(false);
 	}
 	
 	public void grabbieDown() {
 		grabbieUp = false;
 		grabbieDown = true;
-		grabbieRelease.set(false);
-		grabbieRelease2.set(true);
+		grabbieReleaseOut.set(false);
+		grabbieReleaseIn.set(true);
 	}
 	
 	/**

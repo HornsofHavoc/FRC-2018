@@ -24,15 +24,15 @@ import edu.wpi.first.wpilibj.VictorSP;
  */
 public class Forklift extends Subsystem {
 	
-	private static boolean forkUp = false;
-	private static boolean forkDown = false;
+	private boolean forkUp = false;
+	private boolean forkDown = false;
 	
-	private static Solenoid solenoidIn;
-	private static Solenoid solenoidOut;
-	private static DigitalInput fLimitB;
+	private Solenoid solenoidIn;
+	private Solenoid solenoidOut;
+	private DigitalInput fLimitB;
 	
-	private static Spark fSparkL;
-	private static Spark fSparkR;
+	private Spark fSparkL;
+	private Spark fSparkR;
 	
 	public Forklift() {
 		solenoidIn = new Solenoid(RobotMap.solenoidIn);
@@ -89,7 +89,7 @@ public class Forklift extends Subsystem {
 	 * Used for debugging. Do not use in competition.
 	 * @param b A Joyboi.
 	 */
-	public static void joystickBoi(Joystick b) {
+	public void joystickBoi(Joystick b) {
 		fSparkL.set(b.getY()*5);
 		fSparkR.set(b.getY()*5);
 	}

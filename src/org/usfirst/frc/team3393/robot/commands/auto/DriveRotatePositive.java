@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveRotatePositive extends Command {
 
-	private static double gyroStart;
+	private double gyroStart;
 	
-	private static double disparityTarget = 0;
+	private double disparityTarget = 0;
 	
-	private static boolean turned;
+	private boolean turned;
 
 	/**
 	 * Turns the robot for a given amount of degrees.
@@ -42,7 +42,7 @@ public class DriveRotatePositive extends Command {
 		double ratio = (disparityTarget-disparityCurrent)/disparityTarget;
 		SmartDashboard.putString("disparities", disparityCurrent+", "+disparityTarget);
 		if(disparityCurrent<=(disparityTarget)) {
-			Robot.drivetrain.getDrivetrain().tankDrive(-0.53+(-0.05*ratio), 0.76+(0.05*ratio));
+			Robot.drivetrain.getDrivetrain().tankDrive(-0.71+(-0.05*ratio), 0.86+(0.05*ratio));
 		} else {
 			Robot.drivetrain.getDrivetrain().tankDrive(0, 0);
 			turned = true;

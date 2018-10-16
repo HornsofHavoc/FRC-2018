@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GrabbieStop extends Command {
 	
-	private static boolean finished;
+	private boolean finished;
 	
 	public GrabbieStop(){
 		this.requires(Robot.grabbies);

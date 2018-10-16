@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ForkliftWinchUp extends Command {
 	
-	private static double winchSpeed;
+	private double winchSpeed;
 	
 	public ForkliftWinchUp(double speed){
 		this.requires(Robot.forklift);

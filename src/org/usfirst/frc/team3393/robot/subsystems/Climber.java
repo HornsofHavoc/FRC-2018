@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Climber extends Subsystem {
 	
-	private static VictorSP cVictorSPXL;
-	private static VictorSP cVictorSPXR;
-	private static VictorSP cVictorSPXL1;
-	private static VictorSP cVictorSPXR1;
+	private VictorSP cVictorSPXL;
+	private VictorSP cVictorSPXR;
+	private VictorSP cVictorSPXL1;
+	private VictorSP cVictorSPXR1;
 	
 	public Climber() {
 		cVictorSPXL = new VictorSP(RobotMap.cVictorSPXL);

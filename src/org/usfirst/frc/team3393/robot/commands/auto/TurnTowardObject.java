@@ -16,15 +16,15 @@ public class TurnTowardObject extends Command {
 	private boolean flipped = false;
 	private int begOof = 0;
 	
-	private static double gyroStart;
-	private static int selectionType;
+	private double gyroStart;
+	private int selectionType;
 	
-	private static double disparityTarget = 0;
-	private static double edging = 0;
-	private static double centerlevel = 0;
+	private double disparityTarget = 0;
+	private double edging = 0;
+	private double centerlevel = 0;
 	
-	private static boolean rotPositive;
-	private static boolean turned;
+	private boolean rotPositive;
+	private boolean turned;
 
 	/**
 	 * Creates and instance of {@link TurnTowardObject} with the given {@link TrackingSelector}.

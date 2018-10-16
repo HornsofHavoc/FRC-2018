@@ -11,17 +11,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTowardObject extends Command {
 	
-	private static double gyroStart;
-	private static int selectionType;
+	private double gyroStart;
+	private int selectionType;
 	
-	private static boolean finished;
-	private static double distanceObjective;
+	private boolean finished;
+	private double distanceObjective;
 	
 	public DriveTowardObject(TrackingSelector selection, double inches){
 		this.requires(Robot.drivetrain);
 		selectionType = selection.getValue();
 		finished = false;
 		distanceObjective = inches;
+		this.setTimeout(3);
 	}
 	
 	@Override
@@ -55,22 +56,22 @@ public class DriveTowardObject extends Command {
 			//right
 			distance = Robot.dist2;
 		}
-		double driveLeft = -0.55;
-		double driveRight = -0.55;
+		double driveLeft = -0.58;
+		double driveRight = -0.58;
 //		if(gyroStart-Robot.drivetrain.getGyro().getAngle() > 0.01) {
 //			driveLeft = driveLeft + (driveLeft*(gyroStart-Robot.drivetrain.getGyro().getAngle())/8);
 //		} else if(gyroStart-Robot.drivetrain.getGyro().getAngle()<0.01) {
 //			driveRight = driveRight + (driveRight*Math.abs((gyroStart-Robot.drivetrain.getGyro().getAngle())/8));
 //		}
 		if(gyroStart - Robot.drivetrain.getGyro().getAngle() > 0.01) {
-			driveLeft = -0.64;
-			driveRight = -0.55;
+			driveLeft = -0.67;
+			driveRight = -0.58;
 		} else if(gyroStart - Robot.drivetrain.getGyro().getAngle() < 0.01) {
-			driveLeft = -0.55;
-			driveRight = -0.64;
+			driveLeft = -0.58;
+			driveRight = -0.67;
 		} else {
-			driveLeft = -0.55;
-			driveRight = -0.55;
+			driveLeft = -0.58;
+			driveRight = -0.58;
 		}
 		
 		if((distance>=distanceObjective)) {
@@ -102,6 +103,9 @@ public class DriveTowardObject extends Command {
 	
 	@Override
 	protected boolean isFinished() {
+		if(this.isTimedOut()) {
+			return true;
+		}
 		return finished;
 	}
 

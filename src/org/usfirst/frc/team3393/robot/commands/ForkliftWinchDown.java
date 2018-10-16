@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ForkliftWinchDown extends Command {
 	
-	private static double winchSpeed;
+	private double winchSpeed;
 	
 	public ForkliftWinchDown(double speed){
 		this.requires(Robot.forklift);
@@ -23,11 +23,12 @@ public class ForkliftWinchDown extends Command {
 	
 	@Override
 	protected void execute() {
-		if(!Robot.forklift.isSwitchSet()) {
-			Robot.forklift.forkliftFullDistend(winchSpeed);
-		} else {
-			new ForkliftStop().start();
-		}
+		//if(!Robot.forklift.isSwitchSet()) {
+		//	Robot.forklift.forkliftFullDistend(winchSpeed);
+		//} else {
+		//	//new ForkliftStop().start();
+		//}
+		Robot.forklift.forkliftFullDistend(winchSpeed);
 	}
 
 	@Override

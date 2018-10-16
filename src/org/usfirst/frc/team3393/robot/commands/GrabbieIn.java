@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GrabbieIn extends Command {
 	
-	private static double grabSpeed;
+	private double grabSpeed;
 	
 	/**
 	 * Runs the {@link Grabbies} at the given speed until the {@link Grabbies} Subsystem in passed a new {@link Command}.

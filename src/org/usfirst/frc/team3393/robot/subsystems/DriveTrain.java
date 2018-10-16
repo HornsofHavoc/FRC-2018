@@ -19,13 +19,13 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
  */
 public class DriveTrain extends Subsystem{
 	
-	private static WPI_TalonSRX dTalonL;
-	private static WPI_TalonSRX dTalonR;
-	private static WPI_TalonSRX dTalonL1;
-	private static WPI_TalonSRX dTalonR1;
-	private static SpeedControllerGroup driveLeft;
-	private static SpeedControllerGroup driveRight;
-	private static DifferentialDrive drivetrain;
+	private WPI_TalonSRX dTalonL;
+	private WPI_TalonSRX dTalonR;
+	private WPI_TalonSRX dTalonL1;
+	private WPI_TalonSRX dTalonR1;
+	private SpeedControllerGroup driveLeft;
+	private SpeedControllerGroup driveRight;
+	private DifferentialDrive drivetrain;
 	private Encoder encoderLeft;
 	private Encoder encoderRight;
 	private ADXRS450_Gyro gyro;
@@ -116,19 +116,19 @@ public class DriveTrain extends Subsystem{
 		return gyro;
 	}
 
-	public static WPI_TalonSRX getdTalonL() {
+	public WPI_TalonSRX getdTalonL() {
 		return dTalonL;
 	}
 
-	public static WPI_TalonSRX getdTalonR() {
+	public WPI_TalonSRX getdTalonR() {
 		return dTalonR;
 	}
 
-	public static WPI_TalonSRX getdTalonL1() {
+	public WPI_TalonSRX getdTalonL1() {
 		return dTalonL1;
 	}
 
-	public static WPI_TalonSRX getdTalonR1() {
+	public WPI_TalonSRX getdTalonR1() {
 		return dTalonR1;
 	}
 

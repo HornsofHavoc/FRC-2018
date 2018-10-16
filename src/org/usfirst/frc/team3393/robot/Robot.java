@@ -16,6 +16,7 @@ import org.usfirst.frc.team3393.robot.commands.auto.TurnTowardObject;
 import org.usfirst.frc.team3393.robot.commands.autoset.AlignedTrackAuto;
 import org.usfirst.frc.team3393.robot.commands.autoset.SelectLeftRight;
 import org.usfirst.frc.team3393.robot.commands.autoset.StraightAheadAuto;
+import org.usfirst.frc.team3393.robot.commands.autoset.StraightLongAuto;
 import org.usfirst.frc.team3393.robot.commands.autoset.SwitchLeftStartCenter;
 import org.usfirst.frc.team3393.robot.commands.autoset.SwitchRightStartCenter;
 import org.usfirst.frc.team3393.robot.subsystems.Climber;
@@ -123,6 +124,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(grabbies);
 		SmartDashboard.putData(climber);
 		chooser.addDefault("Drive Straight", new StraightAheadAuto());
+		chooser.addObject("Drive Long", new StraightLongAuto());
 		chooser.addObject("Mid Track", new SelectLeftRight());
 		SmartDashboard.putData("Auto Boi", chooser);
 		
@@ -140,7 +142,7 @@ public class Robot extends IterativeRobot {
 			@Override
 			public void copyPipelineOutputs(GripPipeline pipeline) {
 				if (pipeline.filterContoursOutput().size()>0) {
-		            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+		            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(pipeline.filterContoursOutput().size()-1));
 		            synchronized (imgLock) {
 		                centerX = r.x + (r.width / 2);
 		                distI = 0;
@@ -159,7 +161,7 @@ public class Robot extends IterativeRobot {
 		            }
 		        }
 				if (pipeline.filterContoursOutput().size()>1) {
-		            Rect r2 = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
+		            Rect r2 = Imgproc.boundingRect(pipeline.filterContoursOutput().get(pipeline.filterContoursOutput().size()-1));
 		            synchronized (imgLock) {
 		                centerX2 = r2.x + (r2.width / 2);
 		                distI2 = 0;
@@ -189,7 +191,7 @@ public class Robot extends IterativeRobot {
 			}
 		});
 	    visionThread.start();
-	    new GrabbieUp();
+	    new GrabbieUp().start();
 	}
 	
 	/**
@@ -222,7 +224,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		onEnabled();
 		autoComm = chooser.getSelected();
-		autoComm = new StraightAheadAuto();
+		//autoComm = new StraightAheadAuto();
 		
 		SmartDashboard.putString("Near Switch", ""+FRCNet.getNearSwitch());
 		SmartDashboard.putString("Scale", ""+FRCNet.getScale());

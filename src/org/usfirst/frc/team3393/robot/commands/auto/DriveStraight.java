@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveStraight extends Command {
 	
-	private static double lEStart;
-	private static double rEStart;
-	private static double gyroStart;
+	private double lEStart;
+	private double rEStart;
+	private double gyroStart;
 	
-	private static double disparityTarget = 0;
+	private double disparityTarget = 0;
 	
-	private static boolean traveled;
+	private boolean traveled;
 
 	/**
 	 * Drive's the robot straight for a given amount of inches.
@@ -49,7 +49,7 @@ public class DriveStraight extends Command {
 		} else if(gyroStart-Robot.drivetrain.getGyro().getAngle()<0.01) {
 			driveRight = driveRight + (driveRight*Math.abs((gyroStart-Robot.drivetrain.getGyro().getAngle())/2));
 		}
-		Robot.drivetrain.getDrivetrain().tankDrive(driveLeft-0.45, driveRight-0.45);
+		Robot.drivetrain.getDrivetrain().tankDrive(driveLeft-0.56, driveRight-0.56);
 		if(driveLeft==0||driveRight==0) traveled = true;
 	}
 	
